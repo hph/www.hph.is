@@ -1,0 +1,33 @@
+#!/usr/bin/env node
+
+require('babel-register', {
+  cache: false,
+});
+
+const fs = require('fs');
+
+const posts = fs.readdirSync('./posts');
+const contents = `
+import Loadable from 'react-loadable';
+
+export default [
+  ${posts
+    .map(path => {
+      const url = path.split('.js')[0];
+      const { title, date, introduction } = require('../posts/' + path);
+      if (!date) return; // Ignore drafts.
+      return `{
+        url: "${url}",
+        title: "${title}",
+        date: "${date}",
+        introduction: "${introduction}",
+        component: Loadable({
+          loader: () => import(/* webpackChunkName: "${url}" */ '../posts/${path}'),
+          loading: () => null,
+        }),
+      }`;
+    })
+    .filter(Boolean).join(',\n')}
+].sort((a, b) => new Date(b.date) - new Date(a.date))
+`.trim();
+fs.writeFileSync('./build/all-posts.js', contents);
