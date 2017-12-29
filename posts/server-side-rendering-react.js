@@ -16,7 +16,7 @@ export const introduction =
   'When it comes to server-rendering React apps there are some complexities involved, and many people resort to frameworks or abandon the effort altogether. In this post I cover how you can build a server-rendered single-page app from scratch.';
 
 export default () => (
-  <Post title={title} date={date}>
+  <Post title={title} date={date} introduction={introduction}>
     <Text>
       When it comes to the architecture of a{' '}
       <Link href="https://reactjs.org/">React</Link> app there are many choices

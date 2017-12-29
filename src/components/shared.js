@@ -1,6 +1,8 @@
 import Block from './block';
 import Code from './code';
+import DocumentTitle from './document-title';
 import Flex from './flex';
+import Head from './head';
 import Heading from './heading';
 import InlineCode from './inline-code';
 import Link from './link';
@@ -15,7 +17,9 @@ import Title from './title';
 export {
   Block,
   Code,
+  DocumentTitle,
   Flex,
+  Head,
   Heading,
   InlineCode,
   Link,

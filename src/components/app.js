@@ -3,7 +3,7 @@ import { css } from 'glamor';
 import { Route, Switch } from 'react-router-dom';
 import glamorous from 'glamorous';
 
-import { Title, PostPreview } from './shared';
+import { DocumentTitle, Title, PostPreview } from './shared';
 import NotFound from './not-found';
 
 import posts from '../../build/all-posts';
@@ -52,6 +52,7 @@ const Main = glamorous('main')({
 function App() {
   return (
     <Main>
+      <DocumentTitle>Hawk is Coding</DocumentTitle>
       <Switch>
         {posts.map(({ url, component }) => (
           <Route key={url} path={`/coding/${url}`} component={component} />

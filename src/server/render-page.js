@@ -8,6 +8,7 @@ import fs from 'fs';
 
 import buildStats from '../../build/react-loadable.json';
 import App from '../components/app';
+import Head from '../components/head';
 import {
   rootContainerId,
   hydrationFunctionName,
@@ -56,13 +57,16 @@ function getCodeSplitScripts(stats, modules) {
   return getBundles(stats, modules).map(bundle => bundle && bundle.file);
 }
 
-function renderPageContents({ html, css, ids, codeSplitScripts }) {
+function renderPageContents({ html, css, ids, head, codeSplitScripts }) {
   const rehydrate = `window.${hydrationFunctionName}(${JSON.stringify(ids)});`;
   return renderToStaticMarkup(
     <html lang="en">
       <head>
-        <title>Hawk is Coding</title>
+        {head.map(({ tag: HeadComponent, ...props }, index) => (
+          <HeadComponent {...props} key={index} />
+        ))}
         <meta charSet="utf-8" />
+        <meta name="author" content="Haukur Páll Hallvarðsson" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro"
@@ -102,6 +106,7 @@ export default function renderPage(req, res) {
       html,
       css,
       ids,
+      head: Head.flush(),
       codeSplitScripts: getCodeSplitScripts(buildStats, modules),
     });
     const statusCode = reactRouter.status || 200;

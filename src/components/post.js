@@ -1,9 +1,20 @@
 import React from 'react';
 
-import { Block, Link, Separator, Text, Time, Title } from './shared';
+import {
+  Block,
+  DocumentTitle,
+  Head,
+  Link,
+  Separator,
+  Text,
+  Time,
+  Title,
+} from './shared';
 
-const Post = ({ children, date, title }) => (
+const Post = ({ children, date, title, introduction }) => (
   <Block>
+    <DocumentTitle>{title}</DocumentTitle>
+    <Head tag="meta" name="description" content={introduction} />
     <Block marginBottom="1rem">
       <Title marginBottom="1rem">{title}</Title>
       <Time>{date}</Time>
