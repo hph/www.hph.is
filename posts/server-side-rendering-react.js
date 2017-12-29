@@ -448,7 +448,7 @@ export default () => (
     <List>
       <List.Item>
         <Text>
-          The “home” page is rendered by default and the user can navigate to an
+          The “home” page is rendered by default and you can navigate to an
           “about” page. If you navigate to a page that doesn’t exist you will
           get the “not found” page.
         </Text>
