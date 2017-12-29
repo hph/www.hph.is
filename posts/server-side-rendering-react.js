@@ -81,8 +81,8 @@ export default () => (
     </Text>
     <Code>yarn init && yarn add react react-dom</Code>
     <Text>
-      The above command will create a new <InlineCode>package.json</InlineCode>{' '}
-      file and installs the dependencies. With that done, you can create a file
+      The above commands will create a new <InlineCode>package.json</InlineCode>{' '}
+      file and install the dependencies. With that done, you can create a file
       called <InlineCode>server.js</InlineCode> with the following contents:
     </Text>
     <Code>
