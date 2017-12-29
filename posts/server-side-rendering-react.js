@@ -349,6 +349,7 @@ export default () => (
       ++      <Route path="/about" render={() => <h1>About page</h1>} />
       ++      <Route render={() => <h1>Not found</h1>} />
       ++    </Switch>
+
       ++    <p>Links:</p>
       ++    <ul>
       ++      <li>
