@@ -280,10 +280,10 @@ export default () => (
       `}
     </Code>
     <Text>
-      The above config file defines two Webpack config objects: one for the
-      client module and one for the server module. The content of the config
-      itself is mostly boilerplate and out of the scope of this article, but if
-      you’re interested you may read about the basic{' '}
+      The above file defines two Webpack configuration objects: one for the
+      client module and one for the server module. The content of the
+      configuration itself is mostly boilerplate and out of the scope of this
+      article, but if you’re interested you may read about the basic{' '}
       <Link href="https://webpack.js.org/concepts/">Webpack concepts</Link>.
       It’s worth noting that minification is left out of the config because we
       can use the <InlineCode>--optimize-minimize</InlineCode> command-line
