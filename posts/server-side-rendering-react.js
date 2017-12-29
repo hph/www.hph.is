@@ -285,7 +285,7 @@ export default () => (
       itself is mostly boilerplate and out of the scope of this article, but if
       you’re interested you may read about the basic{' '}
       <Link href="https://webpack.js.org/concepts/">Webpack concepts</Link>.
-      It’s worth noting that minification is left out of the config becase we
+      It’s worth noting that minification is left out of the config because we
       can use the <InlineCode>--optimize-minimize</InlineCode> command-line
       argument instead, and the config automatically uses the development or
       production React build as appropriate, based on the{' '}
