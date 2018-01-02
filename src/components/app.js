@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { css } from 'glamor';
 import { Route, Switch } from 'react-router-dom';
 import glamorous from 'glamorous';
 
-import { DocumentTitle, Title, PostPreview } from './shared';
+import { About, DocumentTitle, Title, PostPreview } from './shared';
 import NotFound from './not-found';
 
 import posts from '../../build/all-posts';
@@ -22,18 +22,14 @@ const systemFonts = [
   'Segoe UI Symbol',
 ];
 
-css.global('html, body', {
-  margin: 0,
-  boxSizing: 'border-box',
+css.global(':root', {
   fontFamily: `Source Sans Pro, ${systemFonts.join(', ')}`,
   fontSize: 18,
   textRendering: 'optimizeLegibility',
   WebkitFontSmoothing: 'antialiased',
-  color: '#1e1e1e',
-  backgroundColor: '#fff',
 });
 
-css.global('html', {
+css.global(':root', {
   boxSizing: 'border-box',
 });
 
@@ -43,10 +39,27 @@ css.global('*, *:before, *:after', {
   padding: 0,
 });
 
+const mobileBreakpoint = '@media (max-width: 66rem)';
+
 const Main = glamorous('main')({
-  margin: '0 auto',
-  maxWidth: '45rem',
-  padding: '2rem',
+  display: 'flex',
+  justifyContent: 'center',
+  padding: '2rem 0',
+  [mobileBreakpoint]: {
+    padding: 0,
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+});
+
+const Posts = glamorous('section')({
+  maxWidth: '40rem',
+  marginRight: '2rem',
+  [mobileBreakpoint]: {
+    margin: 0,
+    padding: '0 2rem 2rem',
+    maxWidth: '44rem',
+  },
 });
 
 function App() {
@@ -61,10 +74,15 @@ function App() {
           path="/coding"
           exact
           render={() => (
-            <div>
-              <Title>Posts</Title>
-              {posts.map(post => <PostPreview key={post.url} {...post} />)}
-            </div>
+            <Fragment>
+              <Posts>
+                <Title>All posts</Title>
+                {posts.map(post => <PostPreview key={post.url} {...post} />)}
+              </Posts>
+              <About
+                css={{ [mobileBreakpoint]: { marginTop: '2rem', order: -1 } }}
+              />
+            </Fragment>
           )}
         />
         <Route component={NotFound} />

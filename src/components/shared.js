@@ -1,3 +1,4 @@
+import About from './about';
 import Block from './block';
 import Code from './code';
 import DocumentTitle from './document-title';
@@ -15,6 +16,7 @@ import Time from './time';
 import Title from './title';
 
 export {
+  About,
   Block,
   Code,
   DocumentTitle,

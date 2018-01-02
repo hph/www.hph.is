@@ -8,6 +8,8 @@ const Text = glamorous('p', { propsAreCssOverrides: true })({
   fontWeight: 400,
   color: '#404040',
   lineHeight: '1.65rem',
+  textAlign: 'justify',
+  hyphens: 'auto',
 });
 
 export default Text;

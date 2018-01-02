@@ -10,7 +10,6 @@ const InlineCode = glamorous('code', { propsAreCssOverrides: true })({
   fontFamily: monoFonts.join(', '),
   fontSize: `${14 / 16}rem`,
   fontStyle: 'normal',
-  whiteSpace: 'nowrap',
 });
 
 export default InlineCode;
