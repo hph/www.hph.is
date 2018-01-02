@@ -42,9 +42,9 @@ const About = props => (
       Hi there! My name is Haukur, or{' '}
       <Link href="https://en.wiktionary.org/wiki/haukur">
         “Hawk” in English
-      </Link>. I’m a software developer from Iceland currently based in London,
-      working at <Link href="http://pusher.com/">Pusher</Link>. I write about
-      web technologies, JavaScript, front-end performance, and design.
+      </Link>. I’m a software developer from Iceland currently based in London
+      and working at <Link href="http://pusher.com/">Pusher</Link>. I write
+      about web technologies, JavaScript, front-end performance, and design.
     </SidebarText>
     <SidebarText>
       If you like what you read, make sure to{' '}
