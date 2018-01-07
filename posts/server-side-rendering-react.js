@@ -482,5 +482,11 @@ export default () => (
       </Link>. I will write about these performance optimization techniques in a
       later post.
     </Text>
+    <Text>
+      The final source code for the example application that we have built is{' '}
+      <Link href="https://github.com/hph/react-ssr-demo">
+        available on GitHub
+      </Link>.
+    </Text>
   </Post>
 );
