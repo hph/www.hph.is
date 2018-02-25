@@ -8,6 +8,7 @@ import Heading from './heading';
 import InlineCode from './inline-code';
 import Link from './link';
 import List from './list';
+import Note from './note';
 import Post from './post';
 import PostPreview from './post-preview';
 import Separator from './separator';
@@ -26,6 +27,7 @@ export {
   InlineCode,
   Link,
   List,
+  Note,
   Post,
   PostPreview,
   Separator,
