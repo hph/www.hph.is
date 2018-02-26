@@ -309,19 +309,21 @@ export default () => (
       <Link href="https://en.wikipedia.org/wiki/Bitwise_operation#AND">
         bitwise AND operator
       </Link>, where a non–zero return value means that the bit was set (you can
-      run this in your browser’s console):
+      verify this in your browser’s console):
     </Text>
     <Code>
       {`
-      // With a calculateChangedBits result of 1:
-      1 & 1  // -> 1, render
-      1 & 10 // -> 0
-      1 & 11 // -> 1, render
+      // With a calculateChangedBits result of 1,
+      // the following cases are true:
+      (1 & 1) === 1
+      (10 & 1) === 0
+      (11 & 1) === 1
 
-      // With a calculateChangedBits result of 10:
-      10 & 1  // -> 0
-      10 & 10 // -> 10, render
-      10 & 11 // -> 10, render
+      // With a calculateChangedBits result of 10,
+      // the following cases are true:
+      (1 & 10) === 0
+      (10 & 10) === 10
+      (11 & 10) === 10
       `}
     </Code>
     <Text>

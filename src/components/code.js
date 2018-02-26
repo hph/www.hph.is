@@ -26,11 +26,16 @@ const Pre = styled('pre')({
   },
 });
 
-const colorByType = type =>
+const backgroundColorByType = type =>
   ({
     add: 'rgba(155, 245, 155, 0.3)',
     remove: 'rgba(245, 155, 155, 0.3)',
   }[type] || 'transparent');
+
+const colorByType = type =>
+  ({
+    comment: '#929292',
+  }[type] || '#141414');
 
 const InlineCode = styled('code')(props => ({
   display: 'block',
@@ -38,7 +43,8 @@ const InlineCode = styled('code')(props => ({
   height: '1.5em',
   minWidth: 'fit-content',
   fontFamily: monoFonts.join(', '),
-  backgroundColor: colorByType(props.type),
+  color: colorByType(props.type),
+  backgroundColor: backgroundColorByType(props.type),
 }));
 
 function trim(string) {
@@ -66,6 +72,8 @@ function formatLine(line) {
       return { text: line.slice(2), type: 'add' };
     case '--':
       return { text: line.slice(2), type: 'remove' };
+    case '//':
+      return { text: line, type: 'comment' };
     case '':
       return { text: '\n' };
     default:
