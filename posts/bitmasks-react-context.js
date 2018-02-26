@@ -162,13 +162,10 @@ export default () => (
         ],
       };
 
-      /**
-       * The below is equivalent with passing props to the
-       * original components:
-       *
-       *   <Welcome user={state.user} />
-       *   <FavouriteFilms films={state.films} />
-       */
+      // What follows is equivalent to passing props to the
+      // original components manually, that is:
+      //  <Welcome user={state.user} />
+      //  <FavouriteFilms films={state.films} />
       render(
         <Provider value={state}>
           <WelcomeWithState />
@@ -254,16 +251,15 @@ export default () => (
       a single number as its state and updates every second to display the
       current value, the last odd number, and the last even number. The current
       value should be updated every second, while the other two should only be
-      updated when the current tick of the value is either even or odd. While
-      the performance implications in this particular example are negligible,
-      this provides a good starting point to see the context API employs
+      updated when the current tick of the value is either even or odd. Although
+      the performance implications in this particular example are negligible, it
+      provides a good starting point to understand how the context API employs
       bitmasks:
     </Text>
     <Code>
       {`
-      const calculateChangedBits = (currentValue, nextValue) => {
-        return nextValue.value % 2 === 0 ? 10 : 1;
-      };
+      const calculateChangedBits = (currentValue, nextValue) =>
+        nextValue.value % 2 === 0 ? 10 : 1;
       `}
     </Code>
     <Text>
@@ -295,7 +291,7 @@ export default () => (
       `}
     </Code>
     <Note>
-      The observedBits prop is included here for demonstration purposes only and
+      The observedBits prop is set here for demonstration purposes only and
       should otherwise not be exposed to the user. The withState wrapper
       function could instead be used to automatically inject the prop into the
       consumer based on a local heuristic, such as making a shallow comparison
@@ -335,6 +331,15 @@ export default () => (
       this feature will only be used by libraries such as Redux, MobX, styling
       libraries, and so forth, but it’s good to know of its existence in case
       you need it.
+    </Text>
+    <Heading>What does all this mean for the future of React?</Heading>
+    <Text>
+      As with all new things, only time will tell whether the new API is more
+      successful and popular than the previous one. However, given that the old
+      version was heavily discouraged by the React team itself, and considering
+      the more expressive and powerful API, we’re likely to see some interesting
+      experiments. I’d encourage you to see for yourself and to try it out next
+      time you work on a new feature or project.
     </Text>
   </Post>
 );
