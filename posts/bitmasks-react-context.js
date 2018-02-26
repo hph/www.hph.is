@@ -108,7 +108,7 @@ export default () => (
       Whilst the above higher–order component function will work, there are more
       things to take into consideration before using it, such as giving the
       resulting component a name (for developer tools) and potentially making it
-      pure in order to avoid re–renders. Please refer to the{' '}
+      pure in order to avoid rerenders. Please refer to the{' '}
       <Link href="https://reactjs.org/docs/higher-order-components.html">
         higher-order component docs
       </Link>{' '}
@@ -224,9 +224,9 @@ export default () => (
     <Heading>What about performance?</Heading>
     <Text>
       In a large and complex React application, it is important to prevent
-      unnecessary re–renders. As you may have guessed, all the instances of{' '}
-      <InlineCode>Consumer</InlineCode> will re–render unless explicitly told
-      not to. In order to implement something more akin to the {' '}
+      unnecessary rerenders. As you may have guessed, all the instances of{' '}
+      <InlineCode>Consumer</InlineCode> will rerender unless explicitly told not
+      to. In order to implement something more akin to the {' '}
       <Link href="https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern">
         publish-subscribe
       </Link>{' '}
@@ -303,7 +303,7 @@ export default () => (
     </Note>
     <Text>
       In the above example, with the omitted parts included, the first{' '}
-      <InlineCode>Counter</InlineCode> would be re–rendered every time, since
+      <InlineCode>Counter</InlineCode> would be rerendered every time, since
       both <InlineCode>1</InlineCode> and <InlineCode>10</InlineCode> are
       “observed bits” in <InlineCode>11</InlineCode>. The second will only
       render when our <InlineCode>calculateChangedBits</InlineCode> function

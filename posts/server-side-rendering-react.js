@@ -174,7 +174,7 @@ export default () => (
       </Link>{' '}
       rather than <InlineCode>render</InlineCode>, and provide a callback as a
       third argument, which will show a message in the console to tell us that
-      the application has been re-rendered, or hydrated. You might also have
+      the application has been rerendered, or hydrated. You might also have
       noticed that we’re now using{' '}
       <Link href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import">
         ECMAScript module import statements
