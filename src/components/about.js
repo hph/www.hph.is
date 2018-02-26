@@ -20,7 +20,7 @@ const SidebarText = styled('p')({
   fontSize: 16,
   fontWeight: 400,
   color: '#404040',
-  lineHeight: '1.65rem',
+  lineHeight: '1.4rem',
   textAlign: 'justify',
   hyphens: 'auto',
   [mobileBreakpoint]: {
