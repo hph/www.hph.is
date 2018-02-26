@@ -1,8 +1,8 @@
-import glamorous from 'glamorous';
+import styled from 'react-emotion';
 
 import { monoFonts } from './code';
 
-const InlineCode = glamorous('code', { propsAreCssOverrides: true })({
+const InlineCode = styled('code', { propsAreCssOverrides: true })({
   display: 'inline-flex',
   alignItems: 'center',
   padding: `0 ${2 / 16}rem`,

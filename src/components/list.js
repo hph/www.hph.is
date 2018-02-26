@@ -1,6 +1,6 @@
-import glamorous from 'glamorous';
+import styled from 'react-emotion';
 
-const List = glamorous('ul')({
+const List = styled('ul')({
   marginLeft: '2rem',
   marginBottom: '1.5rem',
   '@media (max-width: 40rem)': {
@@ -8,7 +8,7 @@ const List = glamorous('ul')({
   },
 });
 
-const Item = glamorous('li')({
+const Item = styled('li')({
   '& *': {
     marginBottom: '.75rem',
   },

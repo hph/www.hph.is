@@ -1,5 +1,5 @@
-import glamorous from 'glamorous';
+import styled from 'react-emotion';
 
-export default glamorous('div', { propsAreCssOverrides: true })({
+export default styled('div')({
   display: 'block',
 });

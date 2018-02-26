@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
-import { css } from 'glamor';
 import { Route, Switch } from 'react-router-dom';
-import glamorous from 'glamorous';
+import { injectGlobal } from 'emotion';
+import styled from 'react-emotion';
 
 import { About, DocumentTitle, Title, PostPreview } from './shared';
 import NotFound from './not-found';
@@ -22,26 +22,26 @@ const systemFonts = [
   'Segoe UI Symbol',
 ];
 
-css.global(':root', {
-  fontFamily: `Source Sans Pro, ${systemFonts.join(', ')}`,
-  fontSize: 18,
-  textRendering: 'optimizeLegibility',
-  WebkitFontSmoothing: 'antialiased',
-});
+// eslint-disable-next-line no-unused-expressions
+injectGlobal`
+  :root {
+    font-family: Source Sans Pro, ${systemFonts.join(', ')};
+    font-size: 18px;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    box-sizing: border-box;
+  }
 
-css.global(':root', {
-  boxSizing: 'border-box',
-});
-
-css.global('*, *:before, *:after', {
-  boxSizing: 'inherit',
-  margin: 0,
-  padding: 0,
-});
+  *, *:before, *:after {
+    box-sizing: inherit;
+    margin: 0;
+    padding: 0;
+  }
+`;
 
 const mobileBreakpoint = '@media (max-width: 66rem)';
 
-const Main = glamorous('main')({
+const Main = styled('main')({
   display: 'flex',
   justifyContent: 'center',
   padding: '2rem 0',
@@ -52,7 +52,7 @@ const Main = glamorous('main')({
   },
 });
 
-const Posts = glamorous('section')({
+const Posts = styled('section')({
   maxWidth: '40rem',
   marginRight: '2rem',
   [mobileBreakpoint]: {

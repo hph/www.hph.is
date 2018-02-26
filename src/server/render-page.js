@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { renderToString, renderToStaticMarkup } from 'react-dom/server';
 import { StaticRouter } from 'react-router';
 import Loadable from 'react-loadable';
-import { renderStaticOptimized } from 'glamor/server';
+import { extractCritical } from 'emotion-server';
 import { getBundles } from 'react-loadable/webpack';
 import fs from 'fs';
 
@@ -91,14 +91,15 @@ function renderPageContents({ html, css, ids, head, codeSplitScripts }) {
 export default function renderPage(req, res) {
   const reactRouter = {};
   const modules = [];
-  const html = renderToString(
-    <Loadable.Capture report={moduleName => modules.push(moduleName)}>
-      <StaticRouter location={req.url} context={reactRouter}>
-        <App />
-      </StaticRouter>
-    </Loadable.Capture>,
+  const { html, css, ids } = extractCritical(
+    renderToString(
+      <Loadable.Capture report={moduleName => modules.push(moduleName)}>
+        <StaticRouter location={req.url} context={reactRouter}>
+          <App />
+        </StaticRouter>
+      </Loadable.Capture>,
+    ),
   );
-  const { css, ids } = renderStaticOptimized(() => html);
   if (reactRouter.url) {
     res.redirect(reactRouter.url);
   } else {

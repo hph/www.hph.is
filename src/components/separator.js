@@ -1,6 +1,6 @@
-import glamorous from 'glamorous';
+import styled from 'react-emotion';
 
-const Separator = glamorous('hr')({
+const Separator = styled('hr')({
   display: 'inline-block',
   width: '100%',
   border: 0,

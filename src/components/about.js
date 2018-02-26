@@ -1,11 +1,11 @@
 import React from 'react';
-import glamorous, { Img } from 'glamorous';
+import styled from 'react-emotion';
 
 import { Link } from './shared';
 
 const mobileBreakpoint = '@media (max-width: 66rem)';
 
-const AuthorSidebar = glamorous('aside', { propsAreCssOverrides: true })({
+const AuthorSidebar = styled('aside')({
   maxWidth: '15rem',
   [mobileBreakpoint]: {
     display: 'flex',
@@ -15,7 +15,7 @@ const AuthorSidebar = glamorous('aside', { propsAreCssOverrides: true })({
   },
 });
 
-const SidebarText = glamorous('p')({
+const SidebarText = styled('p')({
   marginBottom: '0.75rem',
   fontSize: 16,
   fontWeight: 400,
@@ -30,13 +30,18 @@ const SidebarText = glamorous('p')({
 
 const About = props => (
   <AuthorSidebar {...props}>
-    <Img
+    <img
       src="//res.cloudinary.com/hph/image/upload/v1514854839/haukur_ntonmo.jpg"
-      width={84}
-      height={84}
-      borderRadius="50%"
-      marginBottom="0.5rem"
-      css={{ [mobileBreakpoint]: { marginBottom: '1rem' } }}
+      alt="Haukur"
+      css={{
+        width: 84,
+        height: 84,
+        borderRadius: '50%',
+        marginBottom: '0.5rem',
+        [mobileBreakpoint]: {
+          marginBottom: '1rem',
+        },
+      }}
     />
     <SidebarText>
       Hi there! My name is Haukur, or{' '}

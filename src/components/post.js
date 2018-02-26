@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import glamorous from 'glamorous';
+import styled from 'react-emotion';
 
 import {
   About,
@@ -16,7 +16,7 @@ import {
 
 const mobileBreakpoint = '@media (max-width: 66rem)';
 
-const Article = glamorous('article')({
+const Article = styled('article')({
   maxWidth: '40rem',
   marginRight: '2rem',
   [mobileBreakpoint]: {
@@ -32,11 +32,11 @@ const Post = ({ children, date, title, introduction }) => (
     <DocumentTitle>{title}</DocumentTitle>
     <Head tag="meta" name="description" content={introduction} />
     <Article>
-      <Block marginBottom="1rem">
-        <Title marginBottom="1rem">{title}</Title>
-        <Flex justifyContent="space-between">
+      <Block css={{ marginBottom: '1rem' }}>
+        <Title css={{ marginBottom: '1rem' }}>{title}</Title>
+        <Flex css={{ justifyContent: 'space-between' }}>
           <Time>{date}</Time>
-          <Link href="/coding" style={{ fontSize: 16 }}>
+          <Link href="/coding" css={{ fontSize: 16 }}>
             &larr; All posts
           </Link>
         </Flex>

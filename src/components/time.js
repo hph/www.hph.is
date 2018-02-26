@@ -1,5 +1,5 @@
 import React from 'react';
-import glamorous from 'glamorous';
+import styled from 'react-emotion';
 
 const getMonth = month => {
   return {
@@ -23,7 +23,7 @@ const formatDate = datetime => {
   return `${date.getDate()} ${getMonth(date.getMonth())} ${date.getFullYear()}`;
 };
 
-const StyledTime = glamorous('time', { propsAreCssOverrides: true })({
+const StyledTime = styled('time')({
   display: 'block',
   fontSize: `${14 / 16}rem`,
   color: '#737373',

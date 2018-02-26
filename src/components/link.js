@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
-import glamorous, { A } from 'glamorous';
+import styled from 'react-emotion';
 
 const anchorStyles = {
   textDecoration: 'none',
@@ -13,19 +13,19 @@ const anchorStyles = {
   },
 };
 
-const StyledRouterLink = glamorous(ReactRouterLink)(anchorStyles);
+const StyledRouterLink = styled(ReactRouterLink)(anchorStyles);
 
 const Link = props => {
   const { children, href, ...restProps } = props;
   if (href.match(/^http/)) {
     return (
-      <A
+      <a
+        css={anchorStyles}
         href={href}
         target="_blank"
-        rel="noopener noreferrer"
-        css={anchorStyles}>
+        rel="noopener noreferrer">
         {children}
-      </A>
+      </a>
     );
   }
   return (

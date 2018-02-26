@@ -1,6 +1,6 @@
-import glamorous from 'glamorous';
+import styled from 'react-emotion';
 
-const Heading = glamorous('h2', { propsAreCssOverrides: true })({
+const Heading = styled('h2')({
   display: 'inline-block',
   margin: '.5rem 0',
   padding: 0,

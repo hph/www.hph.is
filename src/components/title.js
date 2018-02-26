@@ -1,6 +1,6 @@
-import glamorous from 'glamorous';
+import styled from 'react-emotion';
 
-const Title = glamorous('h1', { propsAreCssOverrides: true })({
+const Title = styled('h1')({
   margin: 0,
   padding: 0,
   color: '#1e1e1e',

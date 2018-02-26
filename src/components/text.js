@@ -1,6 +1,6 @@
-import glamorous from 'glamorous';
+import styled from 'react-emotion';
 
-const Text = glamorous('p', { propsAreCssOverrides: true })({
+const Text = styled('p')({
   margin: 0,
   padding: 0,
   marginBottom: '1.2rem',

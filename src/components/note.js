@@ -1,6 +1,6 @@
-import glamorous from 'glamorous';
+import styled from 'react-emotion';
 
-const Note = glamorous('aside', { propsAreCssOverrides: true })({
+const Note = styled('aside')({
   margin: 0,
   padding: 0,
   marginBottom: '1.2rem',

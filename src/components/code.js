@@ -1,5 +1,5 @@
 import React from 'react';
-import glamorous from 'glamorous';
+import styled from 'react-emotion';
 
 export const monoFonts = [
   'SFMono-Regular',
@@ -10,7 +10,7 @@ export const monoFonts = [
   'monospace',
 ];
 
-const Pre = glamorous('pre')({
+const Pre = styled('pre')({
   display: 'flex',
   flexDirection: 'column',
   margin: '0 1.25rem 1.5rem',
@@ -32,7 +32,7 @@ const colorByType = type =>
     remove: 'rgba(245, 155, 155, 0.3)',
   }[type] || 'transparent');
 
-const InlineCode = glamorous('code')(props => ({
+const InlineCode = styled('code')(props => ({
   display: 'block',
   padding: '0 .75rem',
   height: '1.5em',

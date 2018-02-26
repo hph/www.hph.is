@@ -17,8 +17,8 @@ export default {
             'react-dom',
             'react-router-dom',
             'react-loadable',
-            'glamor',
-            'glamorous',
+            'emotion',
+            'react-emotion',
             'history/createBrowserHistory',
           ],
         }

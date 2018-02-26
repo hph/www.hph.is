@@ -1,6 +1,6 @@
 import React from 'react';
 import { hydrate } from 'react-dom';
-import { rehydrate } from 'glamor';
+import { hydrate as hydrateCss } from 'emotion';
 import { preloadReady } from 'react-loadable';
 import { Router } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
@@ -18,7 +18,7 @@ if (typeof window !== 'undefined') {
     // Prevent existing CSS ids from being re-inserted on render.
     // This must be done before the application itself is imported and
     // rendered, see https://goo.gl/zBTH3R for details.
-    rehydrate(cssIds);
+    hydrateCss(cssIds);
 
     // Now we can safely import the module.
     const { default: App } = require('./components/app'); // eslint-disable-line global-require
@@ -39,6 +39,7 @@ if (typeof window !== 'undefined') {
           <App />
         </Router>,
         document.getElementById(rootContainerId),
-      ));
+      ),
+    );
   };
 }
