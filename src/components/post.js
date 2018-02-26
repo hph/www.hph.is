@@ -3,9 +3,7 @@ import styled from 'react-emotion';
 
 import {
   About,
-  Block,
   DocumentTitle,
-  Flex,
   Head,
   Link,
   Separator,
@@ -32,19 +30,19 @@ const Post = ({ children, date, title, introduction }) => (
     <DocumentTitle>{title}</DocumentTitle>
     <Head tag="meta" name="description" content={introduction} />
     <Article>
-      <Block css={{ marginBottom: '1rem' }}>
+      <div css={{ marginBottom: '1rem' }}>
         <Title css={{ marginBottom: '1rem' }}>{title}</Title>
-        <Flex css={{ justifyContent: 'space-between' }}>
+        <div css={{ display: 'flex', justifyContent: 'space-between' }}>
           <Time>{date}</Time>
           <Link href="/coding" css={{ fontSize: 16 }}>
             &larr; All posts
           </Link>
-        </Flex>
-      </Block>
+        </div>
+      </div>
       {children}
       <Link href="/coding">&larr; All posts</Link>
       <Separator />
-      <Block css={{ [mobileBreakpoint]: { display: 'none' } }}>
+      <div css={{ [mobileBreakpoint]: { display: 'none' } }}>
         <Text>
           If you’ve enjoyed reading this post, you can{' '}
           <Link href="https://twitter.com/notjustanyhawk">
@@ -52,7 +50,7 @@ const Post = ({ children, date, title, introduction }) => (
           </Link>{' '}
           for updates.
         </Text>
-      </Block>
+      </div>
     </Article>
     <About />
   </Fragment>
