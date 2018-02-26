@@ -75,9 +75,9 @@ export default () => (
     <Text>
       In the above example, we’ve created two components with{' '}
       <InlineCode>React.createContext</InlineCode>. The resulting{' '}
-      <InlineCode>Provider</InlineCode> component makes any value it is given
+      <InlineCode>Provider</InlineCode> component makes any value it is given,
       accessible to any and all instances of the associated{' '}
-      <InlineCode>Consumer</InlineCode> component. The {' '}
+      <InlineCode>Consumer</InlineCode> component. The{' '}
       <InlineCode>div</InlineCode> between the two components is not required;
       it is only there to demonstrate that there’s no direct parent–child
       relationship between them for the sake of supplying the data.
@@ -226,7 +226,7 @@ export default () => (
       In a large and complex React application, it is important to prevent
       unnecessary rerenders. As you may have guessed, all the instances of{' '}
       <InlineCode>Consumer</InlineCode> will rerender unless explicitly told not
-      to. In order to implement something more akin to the {' '}
+      to. In order to implement something more akin to the{' '}
       <Link href="https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern">
         publish-subscribe
       </Link>{' '}
