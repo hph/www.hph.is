@@ -262,6 +262,16 @@ export default () => (
         nextValue.value % 2 === 0 ? 10 : 1;
       `}
     </Code>
+    <Note>
+      If you have more than two, or a dynamic number of properties, you could
+      use the left shift operator with 1 and the current index to get powers of
+      two, yielding the series of 1, 10, 100, and so forth. For instance, 1
+      &lt;&lt; 3 is 1000. It’s also worth noting that we’re{' '}
+      <Link href="https://github.com/facebook/react/blob/87ae211ccd8d61796cfdef138d1e12fb7a74f85d/packages/react-reconciler/src/maxSigned31BitInt.js#L10-L13">
+        limited to 30 items
+      </Link>{' '}
+      by using powers of two.
+    </Note>
     <Text>
       The above function will always return <InlineCode>1</InlineCode> or{' '}
       <InlineCode>10</InlineCode>, since all the numbers that we will be dealing
