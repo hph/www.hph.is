@@ -4,12 +4,11 @@
     "build:client": "webpack --config=cfg/webpack-client-config.babel.js",
     "build:server": "webpack --config=cfg/webpack-server-config.babel.js",
     "build": "yarn build:client && yarn build:server",
-    "build:production":
-      "rm -rf build && mkdir build && NODE_ENV=production bin/collect-routes && NODE_ENV=production yarn build",
+    "build:production": "rm -rf build && mkdir build && NODE_ENV=production bin/collect-routes && NODE_ENV=production yarn build",
     "postinstall": "yarn build:production",
     "dev": "mkdir -p build && bin/collect-routes && bin/build",
     "lint": "eslint --ignore-path=.gitignore .",
-    "start": "bin/serve"
+    "start": "clusterfork --concurrency=$WEB_CONCURRENCY bin/serve"
   },
   "dependencies": {
     "babel-core": "^6.26.0",
@@ -35,6 +34,7 @@
     "express": "^4.16.2",
     "helmet": "^3.9.0",
     "history": "^4.7.2",
+    "node-clusterfork": "^0.4.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-emotion": "^9.0.2",
@@ -45,7 +45,10 @@
     "webpack-hashed-chunkids": "^1.0.5"
   },
   "babel": {
-    "presets": ["env", "react"],
+    "presets": [
+      "env",
+      "react"
+    ],
     "plugins": [
       [
         "emotion",
@@ -64,8 +67,13 @@
   },
   "eslintConfig": {
     "parser": "babel-eslint",
-    "extends": ["airbnb"],
-    "plugins": ["jsx-a11y", "react"],
+    "extends": [
+      "airbnb"
+    ],
+    "plugins": [
+      "jsx-a11y",
+      "react"
+    ],
     "env": {
       "browser": true,
       "node": true
@@ -81,7 +89,10 @@
       "indent": 0,
       "jsx-a11y/no-autofocus": 0,
       "jsx-a11y/no-static-element-interactions": 0,
-      "jsx-quotes": [2, "prefer-double"],
+      "jsx-quotes": [
+        2,
+        "prefer-double"
+      ],
       "no-confusing-arrow": 0,
       "no-mixed-operators": [
         2,
@@ -103,7 +114,9 @@
       "react/jsx-filename-extension": [
         1,
         {
-          "extensions": ["js"]
+          "extensions": [
+            "js"
+          ]
         }
       ],
       "react/jsx-indent": 0,
