@@ -4,8 +4,10 @@ import { StaticRouter } from 'react-router';
 import Loadable from 'react-loadable';
 import { extractCritical } from 'emotion-server';
 import { getBundles } from 'react-loadable/webpack';
+import url from 'url';
 import fs from 'fs';
 
+import log from './logger';
 import buildStats from '../../build/react-loadable.json';
 import App from '../components/app';
 import Head from '../components/head';
@@ -59,7 +61,7 @@ function getCodeSplitScripts(stats, modules) {
 
 function renderPageContents({ html, css, ids, head, codeSplitScripts }) {
   const rehydrate = `window.${hydrationFunctionName}(${JSON.stringify(ids)});`;
-  return renderToStaticMarkup(
+  const markup = renderToStaticMarkup(
     <html lang="en">
       <head>
         {head.map(({ tag: HeadComponent, ...props }, index) => (
@@ -86,9 +88,21 @@ function renderPageContents({ html, css, ids, head, codeSplitScripts }) {
       </body>
     </html>,
   );
+  return `<!doctype html>${markup}`;
 }
 
+const memCache = new Map();
+
 export default function renderPage(req, res) {
+  const path = url.parse(req.originalUrl).pathname;
+  log.info({ path }, 'Rendering page');
+  const cachedPage = memCache.get(path);
+  if (cachedPage) {
+    log.info({ path }, 'Serving page from cache');
+    return res.status(200).send(cachedPage);
+  }
+
+  log.info({ path }, 'Rendering application to string');
   const reactRouter = {};
   const modules = [];
   const { html, css, ids } = extractCritical(
@@ -100,9 +114,16 @@ export default function renderPage(req, res) {
       </Loadable.Capture>,
     ),
   );
+  log.info({ path }, 'Application rendered');
+
   if (reactRouter.url) {
+    log.info({ path, redirectUrl: reactRouter.url }, 'Redirecting to');
     res.redirect(reactRouter.url);
   } else {
+    log.info(
+      { path },
+      'Constructing a full document from the rendered application',
+    );
     const page = renderPageContents({
       html,
       css,
@@ -110,7 +131,14 @@ export default function renderPage(req, res) {
       head: Head.flush(),
       codeSplitScripts: getCodeSplitScripts(buildStats, modules),
     });
+
     const statusCode = reactRouter.status || 200;
-    res.status(statusCode).send(`<!doctype html>${page}`);
+    if (statusCode === 200) {
+      log.info({ path }, 'Caching page');
+      memCache.set(path, page);
+    }
+
+    log.info({ path }, 'Serving page');
+    res.status(statusCode).send(page);
   }
 }

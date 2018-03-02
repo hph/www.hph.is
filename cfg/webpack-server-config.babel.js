@@ -1,8 +1,6 @@
 import webpack from 'webpack';
 import { resolve } from 'path';
 
-const isProd = process.env.NODE_ENV === 'production';
-
 export default {
   target: 'node',
   context: resolve('./src'),
@@ -38,6 +36,5 @@ export default {
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development',
     }),
-    ...(isProd ? [new webpack.optimize.UglifyJsPlugin()] : []),
   ],
 };

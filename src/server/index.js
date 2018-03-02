@@ -1,6 +1,7 @@
 import Loadable from 'react-loadable';
 
 import createServer from './create-server';
+import log from './logger';
 
 export default function startServer() {
   const server = createServer();
@@ -8,11 +9,16 @@ export default function startServer() {
     .then(() => {
       const port = process.env.PORT || 4000;
       server.listen(port);
-      console.log(`Server listening on http://localhost:${port}`); // eslint-disable-line no-console
+      log.info(`Server listening on http://localhost:${port}`);
     })
-    .catch(error => {
-      console.log('Preloading components failed; could not start server.'); // eslint-disable-line no-console
-      console.log('Full error:', error); // eslint-disable-line no-console
+    .catch(({ message, stack }) => {
+      log.error(
+        {
+          message,
+          stack,
+        },
+        'Preloading components failed; could not start server',
+      );
       process.exit(1);
     });
 }
