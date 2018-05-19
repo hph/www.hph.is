@@ -1,4 +1,5 @@
 import About from './about';
+import Alert from './alert';
 import Code from './code';
 import DocumentTitle from './document-title';
 import Head from './head';
@@ -16,6 +17,7 @@ import Title from './title';
 
 export {
   About,
+  Alert,
   Code,
   DocumentTitle,
   Head,

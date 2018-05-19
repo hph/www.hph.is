@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {
+  Alert,
   Code,
   Heading,
   InlineCode,
@@ -9,6 +10,7 @@ import {
   Post,
   Text,
 } from '../src/components/shared';
+import { formatDate } from '../src/components/time';
 
 export const title = 'Bitmasks and the new React Context API';
 export const date = '2018-02-25';
@@ -17,6 +19,17 @@ export const introduction =
 
 export default () => (
   <Post title={title} date={date} introduction={introduction}>
+    <Alert title={`Updated on ${formatDate('05/19/2018')}`}>
+      It appears that the <InlineCode transparent>observedBits</InlineCode> prop
+      to the <InlineCode transparent>Consumer</InlineCode> component, described
+      below, has{' '}
+      <Link href="https://github.com/facebook/react/commit/551a0765de911f2b266f3f4e9f55d3bf99d635ea#diff-d8411e2e9d23bdea09f0c01d01cbf389">
+        now been changed
+      </Link>{' '}
+      to <InlineCode transparent>unstable_observedBits</InlineCode>. The linked
+      code sample has now been updated to use the new prop, but please keep in
+      mind that this API is subject to change.
+    </Alert>
     <Text>
       If you’ve used React, and you’ve spent some time browsing its
       documentation, you may have come across the section on the Context API
