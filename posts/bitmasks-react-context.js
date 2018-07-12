@@ -272,7 +272,7 @@ export default () => (
     <Code>
       {`
       const calculateChangedBits = (currentValue, nextValue) =>
-        nextValue.value % 2 === 0 ? 10 : 1;
+        nextValue.value % 2 === 0 ? 0b10 : 0b1;
       `}
     </Code>
     <Note>
@@ -286,11 +286,11 @@ export default () => (
       by using powers of two.
     </Note>
     <Text>
-      The above function will always return <InlineCode>1</InlineCode> or{' '}
-      <InlineCode>10</InlineCode>, since all the numbers that we will be dealing
-      with are either even or odd. Using this, we can create a new context and
-      provide the appropriate <InlineCode>observedBits</InlineCode> prop to our
-      consumers (see the{' '}
+      The above function will always return <InlineCode>0b1</InlineCode> or{' '}
+      <InlineCode>0b10</InlineCode>, since all the numbers that we will be
+      dealing with are either even or odd. Using this, we can create a new
+      context and provide the appropriate <InlineCode>observedBits</InlineCode>{' '}
+      prop to our consumers (see the{' '}
       <Link href="https://codesandbox.io/s/00l2x10wpw">full demo here</Link>):
     </Text>
     <Code>
@@ -305,9 +305,9 @@ export default () => (
 
       render(
         <StateProvider initialState={{ value: 0 }}>
-          <Counter label="Current value" observedBits={11} />
-          <Counter label="Odd" observedBits={1} />
-          <Counter label="Even" observedBits={10} />
+          <Counter label="Current value" observedBits={0b11} />
+          <Counter label="Odd" observedBits={0b1} />
+          <Counter label="Even" observedBits={0b10} />
         </StateProvider>,
         document.getElementById("root"),
       );
@@ -323,11 +323,11 @@ export default () => (
     <Text>
       In the above example, with the omitted parts included, the first{' '}
       <InlineCode>Counter</InlineCode> would be rerendered every time, since
-      both <InlineCode>1</InlineCode> and <InlineCode>10</InlineCode> are
-      “observed bits” in <InlineCode>11</InlineCode>. The second will only
+      both <InlineCode>0b1</InlineCode> and <InlineCode>0b10</InlineCode> are
+      “observed bits” in <InlineCode>0b11</InlineCode>. The second will only
       render when our <InlineCode>calculateChangedBits</InlineCode> function
-      returns <InlineCode>1</InlineCode>, and the third when it returns{' '}
-      <InlineCode>10</InlineCode>. To illustrate how this works, consider the
+      returns <InlineCode>0b1</InlineCode>, and the third when it returns{' '}
+      <InlineCode>0b10</InlineCode>. To illustrate how this works, consider the
       following example using the{' '}
       <Link href="https://en.wikipedia.org/wiki/Bitwise_operation#AND">
         bitwise AND operator
@@ -336,17 +336,17 @@ export default () => (
     </Text>
     <Code>
       {`
-      // With a calculateChangedBits result of 1,
+      // With a calculateChangedBits result of 0b1,
       // the following cases are true:
-      (1 & 1) === 1
-      (10 & 1) === 0
-      (11 & 1) === 1
+      (0b1 & 0b1) === 0b1
+      (0b10 & 0b1) !== 0b1
+      (0b11 & 0b1) === 0b1
 
-      // With a calculateChangedBits result of 10,
+      // With a calculateChangedBits result of 0b10,
       // the following cases are true:
-      (1 & 10) === 0
-      (10 & 10) === 10
-      (11 & 10) === 10
+      (0b1 & 0b10) !== 0b10
+      (0b10 & 0b10) === 0b10
+      (0b11 & 0b10) === 0b10
       `}
     </Code>
     <Text>

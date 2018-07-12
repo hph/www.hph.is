@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { InlineCode, Text } from './shared';
+import { Text } from './shared';
 
 const Alert = ({ title, children }) => (
   <div
@@ -9,9 +9,6 @@ const Alert = ({ title, children }) => (
       backgroundColor: 'rgb(0, 133, 255, .3)',
       marginBottom: '1.2rem',
       borderRadius: 2,
-      [InlineCode]: {
-        color: 'red',
-      },
     }}>
     <h4
       css={{
