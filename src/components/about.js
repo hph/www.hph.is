@@ -69,7 +69,7 @@ const SocialProfiles = ({ profiles = socialProfiles }) => (
 const About = props => (
   <AuthorSidebar {...props}>
     <img
-      src="//res.cloudinary.com/hph/image/upload/v1514854839/haukur_ntonmo.jpg"
+      src="//res.cloudinary.com/hph/image/upload/c_scale,q_76,w_480/v1542564234/author.jpg"
       alt="Haukur"
       css={{
         width: 84,
