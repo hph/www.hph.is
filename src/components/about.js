@@ -88,6 +88,7 @@ const About = props => (
         css={{
           width: 84,
           height: 84,
+          marginTop: -6, // Correct for illusory misalignment.
           borderRadius: '50%',
           [mobileBreakpoint]: {
             marginBottom: '1rem',
