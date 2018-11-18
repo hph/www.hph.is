@@ -10,6 +10,7 @@ import posts from '../../build/all-posts';
 
 // System fonts based on the ones GitHub uses.
 const systemFonts = [
+  'system-ui',
   '-apple-system',
   'BlinkMacSystemFont',
   'Segoe UI',
