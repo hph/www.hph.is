@@ -5,7 +5,7 @@ import styled from 'react-emotion';
 
 import { About, DocumentTitle, Title, PostPreview } from './shared';
 import NotFound from './not-found';
-
+import { mobileBreakpoint } from '../constants';
 import posts from '../../build/all-posts';
 
 // System fonts based on the ones GitHub uses.
@@ -39,8 +39,6 @@ injectGlobal`
   }
 `;
 
-const mobileBreakpoint = '@media (max-width: 66rem)';
-
 const Main = styled('main')({
   display: 'flex',
   justifyContent: 'center',
@@ -53,9 +51,13 @@ const Main = styled('main')({
 });
 
 const Posts = styled('section')({
+  position: 'absolute',
+  left: 'calc((100% - 60rem) / 2)',
   maxWidth: '40rem',
   marginRight: '2rem',
   [mobileBreakpoint]: {
+    position: 'relative',
+    left: 'auto',
     margin: 0,
     padding: '0 2rem 2rem',
     maxWidth: '44rem',

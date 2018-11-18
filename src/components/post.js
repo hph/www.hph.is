@@ -11,13 +11,16 @@ import {
   Time,
   Title,
 } from './shared';
-
-const mobileBreakpoint = '@media (max-width: 66rem)';
+import { mobileBreakpoint } from '../constants';
 
 const Article = styled('article')({
+  position: 'absolute',
+  left: 'calc((100% - 60rem) / 2)',
   maxWidth: '40rem',
   marginRight: '2rem',
   [mobileBreakpoint]: {
+    position: 'relative',
+    left: 'auto',
     margin: 0,
     width: '100%',
     maxWidth: '44rem',

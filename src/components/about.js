@@ -1,13 +1,16 @@
 import React from 'react';
 import styled from 'react-emotion';
 
-import { Icon, Link, Separator } from './shared';
-
-const mobileBreakpoint = '@media (max-width: 66rem)';
+import { Icon, Link } from './shared';
+import { mobileBreakpoint } from '../constants';
 
 const AuthorSidebar = styled('aside')({
-  maxWidth: '15rem',
+  position: 'fixed',
+  right: 'calc((100% - 60rem) / 2)',
+  maxWidth: '18rem',
   [mobileBreakpoint]: {
+    position: 'relative',
+    right: 'auto',
     display: 'flex',
     flexDirection: 'column',
     maxWidth: '44rem',
@@ -52,7 +55,11 @@ const SocialProfiles = ({ profiles = socialProfiles }) => (
   <div
     css={{
       fontSize: 16,
-      a: { display: 'inline-flex', marginBottom: 8 },
+      height: 84,
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-evenly',
+      a: { display: 'inline-flex' },
       'a>span': { marginRight: 8 },
     }}>
     {profiles.map(({ type, href, title, label }) => (
@@ -68,19 +75,26 @@ const SocialProfiles = ({ profiles = socialProfiles }) => (
 
 const About = props => (
   <AuthorSidebar {...props}>
-    <img
-      src="//res.cloudinary.com/hph/image/upload/c_scale,q_76,w_480/v1542564234/author.jpg"
-      alt="Haukur"
+    <div
       css={{
-        width: 84,
-        height: 84,
-        borderRadius: '50%',
-        marginBottom: '0.5rem',
-        [mobileBreakpoint]: {
-          marginBottom: '1rem',
-        },
-      }}
-    />
+        display: 'flex',
+        justifyContent: 'space-between',
+        marginBottom: 12,
+      }}>
+      <SocialProfiles />
+      <img
+        src="//res.cloudinary.com/hph/image/upload/c_scale,q_76,w_480/v1542564234/author.jpg"
+        alt="Haukur"
+        css={{
+          width: 84,
+          height: 84,
+          borderRadius: '50%',
+          [mobileBreakpoint]: {
+            marginBottom: '1rem',
+          },
+        }}
+      />
+    </div>
     <SidebarText>
       Hi there! My name is Haukur, or{' '}
       <Link href="https://en.wiktionary.org/wiki/haukur">
@@ -89,8 +103,6 @@ const About = props => (
       write about web technologies, JavaScript, front-end performance, and
       design.
     </SidebarText>
-    <Separator css={{ margin: '1rem 0' }} />
-    <SocialProfiles />
   </AuthorSidebar>
 );
 
