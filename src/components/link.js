@@ -17,18 +17,11 @@ const StyledRouterLink = styled(ReactRouterLink)(anchorStyles);
 
 const Link = props => {
   const { children, href, ...restProps } = props;
-  if (href.match(/^http/)) {
-    return (
-      <a
-        css={anchorStyles}
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer">
-        {children}
-      </a>
-    );
-  }
-  return (
+  return href.match(/(^http|^mailto\:)/) ? (
+    <a css={anchorStyles} href={href} target="_blank" rel="noopener noreferrer">
+      {children}
+    </a>
+  ) : (
     <StyledRouterLink to={href} {...restProps}>
       {children}
     </StyledRouterLink>

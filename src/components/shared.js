@@ -4,6 +4,7 @@ import Code from './code';
 import DocumentTitle from './document-title';
 import Head from './head';
 import Heading from './heading';
+import Icon from './icon';
 import InlineCode from './inline-code';
 import Link from './link';
 import List from './list';
@@ -22,6 +23,7 @@ export {
   DocumentTitle,
   Head,
   Heading,
+  Icon,
   InlineCode,
   Link,
   List,

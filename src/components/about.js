@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'react-emotion';
 
-import { Link } from './shared';
+import { Icon, Link, Separator } from './shared';
 
 const mobileBreakpoint = '@media (max-width: 66rem)';
 
@@ -16,7 +16,6 @@ const AuthorSidebar = styled('aside')({
 });
 
 const SidebarText = styled('p')({
-  marginBottom: '0.75rem',
   fontSize: 16,
   fontWeight: 400,
   color: '#404040',
@@ -27,6 +26,45 @@ const SidebarText = styled('p')({
     fontSize: '1rem',
   },
 });
+
+const socialProfiles = [
+  {
+    type: 'email',
+    href: 'mailto:hph@hph.is',
+    title: 'Email me',
+    label: 'hph@hph.is',
+  },
+  {
+    type: 'github',
+    href: 'https://github.com/hph',
+    title: 'GitHub profile',
+    label: 'github.com/hph',
+  },
+  {
+    type: 'twitter',
+    href: 'https://twitter.com/notjustanyhawk',
+    title: 'Twitter profile',
+    label: 'twitter.com/notjustanyhawk',
+  },
+];
+
+const SocialProfiles = ({ profiles = socialProfiles }) => (
+  <div
+    css={{
+      fontSize: 16,
+      a: { display: 'inline-flex', marginBottom: 8 },
+      'a>span': { marginRight: 8 },
+    }}>
+    {profiles.map(({ type, href, title, label }) => (
+      <div key={type}>
+        <Link href={href}>
+          <Icon name={type} size={20} title={title} />
+          <span css={{ marginLeft: 8 }}>{label}</span>
+        </Link>
+      </div>
+    ))}
+  </div>
+);
 
 const About = props => (
   <AuthorSidebar {...props}>
@@ -47,16 +85,12 @@ const About = props => (
       Hi there! My name is Haukur, or{' '}
       <Link href="https://en.wiktionary.org/wiki/haukur">
         “Hawk” in English
-      </Link>. I’m a software developer from Iceland currently based in London
-      and working at <Link href="http://pusher.com/">Pusher</Link>. I write
-      about web technologies, JavaScript, front-end performance, and design.
+      </Link>. I’m a software developer from Iceland. Among other things, I
+      write about web technologies, JavaScript, front-end performance, and
+      design.
     </SidebarText>
-    <SidebarText>
-      If you like what you read, make sure to{' '}
-      <Link href="https://twitter.com/notjustanyhawk">
-        follow me on Twitter
-      </Link>.
-    </SidebarText>
+    <Separator css={{ margin: '1rem 0' }} />
+    <SocialProfiles />
   </AuthorSidebar>
 );
 
