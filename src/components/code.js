@@ -17,9 +17,10 @@ const Pre = styled('pre')({
   padding: '.75rem 0',
   borderRadius: 3,
   color: '#141414',
-  backgroundColor: '#f6f8fa',
+  backgroundColor: '#fff',
   fontSize: '.875rem',
   lineHeight: 1.5,
+  boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.15)',
   overflow: 'auto',
   '@media (max-width: 40rem)': {
     margin: '0 0 1.5rem',

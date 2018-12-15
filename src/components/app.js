@@ -51,6 +51,7 @@ const Posts = styled('section')({
 // eslint-disable-next-line no-unused-expressions
 injectGlobal`
   :root {
+    background-color: #f6f8fa;
     font-family: Source Sans Pro, ${systemFonts.join(', ')};
     font-size: 18px;
     text-rendering: optimizeLegibility;

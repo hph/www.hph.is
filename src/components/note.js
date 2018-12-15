@@ -8,7 +8,7 @@ const Note = styled('aside')({
   fontSize: '0.9rem',
   fontWeight: 400,
   fontStyle: 'italic',
-  color: '#606060',
+  color: '#4e4e4e',
   lineHeight: '1.65rem',
   borderLeft: '2px solid #0085ff',
 });

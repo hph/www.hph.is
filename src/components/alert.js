@@ -5,8 +5,9 @@ import { Text } from './shared';
 const Alert = ({ title, children }) => (
   <div
     css={{
-      padding: '1rem .75rem',
+      padding: '.75rem 1rem',
       backgroundColor: 'rgba(0, 133, 255, .15)',
+      boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.25)',
       marginBottom: '1.2rem',
       borderRadius: 2,
     }}>
