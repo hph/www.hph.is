@@ -28,7 +28,7 @@ const Main = styled('main')({
   justifyContent: 'center',
   padding: '2rem 0',
   [mobileBreakpoint]: {
-    padding: 0,
+    padding: '2rem',
     flexDirection: 'column',
     alignItems: 'center',
   },

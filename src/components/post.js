@@ -22,7 +22,7 @@ const Article = styled('article')({
     position: 'relative',
     left: 'auto',
     margin: 0,
-    width: '100%',
+    width: '100vw',
     maxWidth: '44rem',
     padding: '2rem 2rem 0',
   },
