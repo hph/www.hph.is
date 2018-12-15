@@ -131,7 +131,9 @@ let firstRender = true;
 function onLocationChange(props) {
   if (typeof window !== 'undefined') {
     // Scroll to the top of the page; the router doesn't do it.
-    requestAnimationFrame(() => window.scrollTo(0, 0));
+    requestAnimationFrame(() =>
+      window.scrollTo({ top: 0, behavior: 'smooth' }),
+    );
 
     if (process.env.NODE_ENV === 'production') {
       if (firstRender) {
