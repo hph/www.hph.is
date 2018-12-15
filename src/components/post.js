@@ -24,7 +24,7 @@ const Article = styled('article')({
     margin: 0,
     width: '100vw',
     maxWidth: '44rem',
-    padding: '2rem 2rem 0',
+    padding: '0 2rem',
   },
 });
 
