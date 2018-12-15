@@ -86,7 +86,7 @@ function renderPageContents({
         <meta name="author" content="Haukur Páll Hallvarðsson" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <style>{injectedCss}</style>
-        <link rel="preload" href={profilePictureUrl} />
+        <link rel="preload" as="image" href={profilePictureUrl} />
         {isProd && analyticsScripts}
       </head>
       <body>
