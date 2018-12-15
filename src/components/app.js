@@ -68,7 +68,7 @@ injectGlobal`
 const Home = () => (
   <Fragment>
     <Posts>
-      <Title>All posts</Title>
+      <Title>Hawk is Coding</Title>
       {posts.map(post => <PostPreview key={post.url} {...post} />)}
     </Posts>
     <About css={{ [mobileBreakpoint]: { marginTop: '2rem', order: -1 } }} />
@@ -99,7 +99,7 @@ function App({ onRenderNotFound }) {
   return (
     <Main>
       <Location>{onLocationChange}</Location>
-      <DocumentTitle>Hawk is Coding</DocumentTitle>
+      <DocumentTitle>Haukur Páll Hallvarðsson</DocumentTitle>
       <Head tag="meta" name="description" content="Haukur Páll Hallvarðsson" />
       <Router>
         {posts.map(({ url, component: Component }) => (
