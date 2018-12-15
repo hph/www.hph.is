@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Location, Router } from '@reach/router';
 import { injectGlobal } from 'emotion';
 import styled from 'react-emotion';
 
 import { About, DocumentTitle, Title, PostPreview } from './shared';
 import NotFound from './not-found';
-import { mobileBreakpoint } from '../constants';
+import { pageViewTrackingFunctionName, mobileBreakpoint } from '../constants';
 import posts from '../../build/all-posts';
 
 // System fonts based on the ones GitHub uses.
@@ -117,31 +117,41 @@ injectGlobal`
   }
 `;
 
-function App() {
+const Home = () => (
+  <Fragment>
+    <Posts>
+      <Title>All posts</Title>
+      {posts.map(post => <PostPreview key={post.url} {...post} />)}
+    </Posts>
+    <About css={{ [mobileBreakpoint]: { marginTop: '2rem', order: -1 } }} />
+  </Fragment>
+);
+
+let firstRender = true;
+function onLocationChange(props) {
+  if (process.env.NODE_ENV === 'production' && typeof window !== 'undefined') {
+    if (firstRender) {
+      firstRender = false;
+      return;
+    }
+
+    // Notify Google Analytics that we've changed routes.
+    window[pageViewTrackingFunctionName](props.location.pathname);
+  }
+}
+
+function App({ onRenderNotFound }) {
   return (
     <Main>
+      <Location>{onLocationChange}</Location>
       <DocumentTitle>Hawk is Coding</DocumentTitle>
-      <Switch>
-        {posts.map(({ url, component }) => (
-          <Route key={url} path={`/coding/${url}`} component={component} />
+      <Router>
+        {posts.map(({ url, component: Component }) => (
+          <Component key={url} path={`/coding/${url}`} />
         ))}
-        <Route
-          path="/coding"
-          exact
-          render={() => (
-            <Fragment>
-              <Posts>
-                <Title>All posts</Title>
-                {posts.map(post => <PostPreview key={post.url} {...post} />)}
-              </Posts>
-              <About
-                css={{ [mobileBreakpoint]: { marginTop: '2rem', order: -1 } }}
-              />
-            </Fragment>
-          )}
-        />
-        <Route component={NotFound} />
-      </Switch>
+        <Home path="/coding" />
+        <NotFound path="*" onRender={onRenderNotFound} />
+      </Router>
     </Main>
   );
 }

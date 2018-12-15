@@ -1,17 +1,23 @@
 import React from 'react';
 
 import { Link, Title } from './shared';
-import Status from './status';
 
-const NotFound = () => (
-  <Status code={404}>
+function NotFound({ onRender }) {
+  if (onRender) {
+    // The routing library currently provides no mechanism of detecting a 404,
+    // so we call the provided function to tell the server that the page is not
+    // found.
+    onRender();
+  }
+
+  return (
     <div css={{ margin: '2rem auto', width: '40rem' }}>
       <Title>Page not found</Title>
       <div css={{ marginTop: '1rem' }}>
         <Link href="/coding">Go home</Link>
       </div>
     </div>
-  </Status>
-);
+  );
+}
 
 export default NotFound;

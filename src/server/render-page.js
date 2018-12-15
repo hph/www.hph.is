@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { renderToString, renderToStaticMarkup } from 'react-dom/server';
-import { StaticRouter } from 'react-router';
+import { ServerLocation } from '@reach/router';
 import Loadable from 'react-loadable';
 import { extractCritical } from 'emotion-server';
 import { getBundles } from 'react-loadable/webpack';
@@ -122,43 +122,44 @@ export default function renderPage(req, res) {
   }
 
   log.info({ path }, 'Rendering application to string');
-  const reactRouter = {};
   const modules = [];
+
+  // The routing library sadly doesn't currently provide a mechanism to
+  // detect 404s, so we hack around it.
+  let statusCode = 200;
+  function onNotFound() {
+    statusCode = 404;
+  }
+
   const { html, css, ids } = extractCritical(
     renderToString(
       <Loadable.Capture report={moduleName => modules.push(moduleName)}>
-        <StaticRouter location={req.url} context={reactRouter}>
-          <App />
-        </StaticRouter>
+        <ServerLocation url={req.url}>
+          <App onRenderNotFound={onNotFound} />
+        </ServerLocation>
       </Loadable.Capture>,
     ),
   );
-  log.info({ path }, 'Application rendered');
 
-  if (reactRouter.url) {
-    log.info({ path, redirectUrl: reactRouter.url }, 'Redirecting to');
-    res.redirect(reactRouter.url);
-  } else {
-    log.info(
-      { path },
-      'Constructing a full document from the rendered application',
-    );
-    const page = renderPageContents({
-      html,
-      css,
-      ids,
-      head: Head.flush(),
-      codeSplitScripts: getCodeSplitScripts(buildStats, modules),
-      firstVisit,
-    });
+  log.info(
+    { path },
+    'Application rendered; constructing a full document from the rendered application',
+  );
 
-    const statusCode = reactRouter.status || 200;
-    if (statusCode === 200) {
-      log.info({ path }, 'Caching page');
-      memCache.set(cacheKey({ firstVisit, path }), page);
-    }
+  const page = renderPageContents({
+    html,
+    css,
+    ids,
+    head: Head.flush(),
+    codeSplitScripts: getCodeSplitScripts(buildStats, modules),
+    firstVisit,
+  });
 
-    log.info({ path }, 'Serving page');
-    res.status(statusCode).send(page);
+  if (statusCode === 200) {
+    log.info({ path }, 'Caching page');
+    memCache.set(cacheKey({ firstVisit, path }), page);
   }
+
+  log.info({ path }, 'Serving page');
+  res.status(statusCode).send(page);
 }

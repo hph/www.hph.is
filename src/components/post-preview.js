@@ -1,12 +1,10 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
 
 import { Heading, Link, Text, Time } from './shared';
 
 const PostPreview = ({ url, date, title, introduction, component }) => (
   <div css={{ display: 'flex', flexDirection: 'column', margin: '1rem 0' }}>
     <div>
-      <Route key={url} path={`/${url}`} component={component} />
       <Link
         href={`/coding/${url}`}
         onFocus={component.preload}

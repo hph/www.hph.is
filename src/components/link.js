@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link as ReactRouterLink } from 'react-router-dom';
+import { Link as RouterLink } from '@reach/router';
 import styled from 'react-emotion';
 
 const anchorStyles = {
@@ -13,7 +13,7 @@ const anchorStyles = {
   },
 };
 
-const StyledRouterLink = styled(ReactRouterLink)(anchorStyles);
+const StyledRouterLink = styled(RouterLink)(anchorStyles);
 
 const Link = props => {
   const { children, href, ...restProps } = props;

@@ -2,16 +2,8 @@ import React from 'react';
 import { hydrate } from 'react-dom';
 import { hydrate as hydrateCss } from 'emotion';
 import { preloadReady } from 'react-loadable';
-import { Router } from 'react-router-dom';
-import createHistory from 'history/createBrowserHistory';
 
-import {
-  rootContainerId,
-  hydrationFunctionName,
-  pageViewTrackingFunctionName,
-} from './constants';
-
-const isProd = process.env.NODE_ENV === 'production';
+import { rootContainerId, hydrationFunctionName } from './constants';
 
 if (typeof window !== 'undefined') {
   window[hydrationFunctionName] = cssIds => {
@@ -23,23 +15,9 @@ if (typeof window !== 'undefined') {
     // Now we can safely import the module.
     const { default: App } = require('./components/app'); // eslint-disable-line global-require
 
-    const history = createHistory();
-
-    // Notify Google Analytics that we've changed routes.
-    if (isProd) {
-      history.listen(({ pathname }) => {
-        window[pageViewTrackingFunctionName](pathname);
-      });
-    }
-
     // Wait until all the required modules have been loaded before rendering.
     preloadReady().then(() =>
-      hydrate(
-        <Router history={history}>
-          <App />
-        </Router>,
-        document.getElementById(rootContainerId),
-      ),
+      hydrate(<App />, document.getElementById(rootContainerId)),
     );
   };
 }

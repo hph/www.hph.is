@@ -13,13 +13,12 @@ export default {
     ...(isProd
       ? {
           vendor: [
+            '@reach/router',
+            'emotion',
             'react',
             'react-dom',
-            'react-router-dom',
-            'react-loadable',
-            'emotion',
             'react-emotion',
-            'history/createBrowserHistory',
+            'react-loadable',
           ],
         }
       : {}),
