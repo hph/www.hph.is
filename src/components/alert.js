@@ -6,7 +6,7 @@ const Alert = ({ title, children }) => (
   <div
     css={{
       padding: '1rem .75rem',
-      backgroundColor: 'rgb(0, 133, 255, .3)',
+      backgroundColor: 'rgba(0, 133, 255, .3)',
       marginBottom: '1.2rem',
       borderRadius: 2,
     }}>
