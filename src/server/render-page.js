@@ -1,22 +1,18 @@
 import React, { Fragment } from 'react';
 import { renderToString, renderToStaticMarkup } from 'react-dom/server';
 import { ServerLocation } from '@reach/router';
-import Loadable from 'react-loadable';
 import { extractCritical } from 'emotion-server';
+import Loadable from 'react-loadable';
 import { getBundles } from 'react-loadable/webpack';
 import url from 'url';
 import fs from 'fs';
 
 import log from './logger';
-import { fonts } from './fonts';
+import fonts from './fonts';
 import buildStats from '../../build/react-loadable.json';
 import App from '../components/app';
 import Head from '../components/head';
-import {
-  rootContainerId,
-  hydrationFunctionName,
-  pageViewTrackingFunctionName,
-} from '../constants';
+import { rootContainerId, pageViewTrackingFunctionName } from '../constants';
 import { profilePictureUrl } from '../components/about';
 
 const isProd = process.env.NODE_ENV === 'production';
@@ -67,16 +63,8 @@ function getCodeSplitScripts(stats, modules) {
 const fadeCss =
   'body{animation:fadeIn 1s ease}@keyframes fadeIn{from{opacity:0}to{opacity:1}}';
 
-function renderPageContents({
-  html,
-  css,
-  ids,
-  head,
-  codeSplitScripts,
-  firstVisit,
-}) {
+function renderPageContents({ html, css, head, codeSplitScripts, firstVisit }) {
   const injectedCss = (firstVisit ? fadeCss : '') + fonts + css;
-  const rehydrate = `window.${hydrationFunctionName}(${JSON.stringify(ids)});`;
   const markup = renderToStaticMarkup(
     <html lang="en">
       <head>
@@ -102,7 +90,6 @@ function renderPageContents({
         {codeSplitScripts.map(script => (
           <script src={`/${script}`} key={script} />
         ))}
-        <script dangerouslySetInnerHTML={{ __html: rehydrate }} />
       </body>
     </html>,
   );
@@ -139,7 +126,7 @@ export default function renderPage(req, res) {
     statusCode = 404;
   }
 
-  const { html, css, ids } = extractCritical(
+  const { html, css } = extractCritical(
     renderToString(
       <Loadable.Capture report={moduleName => modules.push(moduleName)}>
         <ServerLocation url={req.url}>
@@ -157,7 +144,6 @@ export default function renderPage(req, res) {
   const page = renderPageContents({
     html,
     css,
-    ids,
     head: Head.flush(),
     codeSplitScripts: getCodeSplitScripts(buildStats, modules),
     firstVisit,

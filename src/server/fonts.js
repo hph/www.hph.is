@@ -54,4 +54,4 @@ const rawFontsCss = `
   }
 `;
 
-export const fonts = new CleanCSS().minify(rawFontsCss).styles;
+export default new CleanCSS().minify(rawFontsCss).styles;
