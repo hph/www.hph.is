@@ -4,6 +4,9 @@ import styled from 'react-emotion';
 import { Icon, Link } from './shared';
 import { mobileBreakpoint } from '../constants';
 
+export const profilePictureUrl =
+  '//res.cloudinary.com/hph/image/upload/c_scale,q_76,w_480/v1542564234/author.jpg';
+
 const AuthorSidebar = styled('aside')({
   position: 'fixed',
   right: 'calc((100% - 60rem) / 2)',
@@ -83,7 +86,7 @@ const About = props => (
       }}>
       <SocialProfiles />
       <img
-        src="//res.cloudinary.com/hph/image/upload/c_scale,q_76,w_480/v1542564234/author.jpg"
+        src={profilePictureUrl}
         alt="Haukur"
         css={{
           width: 84,
