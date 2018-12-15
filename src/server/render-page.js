@@ -75,7 +75,7 @@ function renderPageContents({
   codeSplitScripts,
   firstVisit,
 }) {
-  const injectedCss = firstVisit ? fadeCss + css : css;
+  const injectedCss = (firstVisit ? fadeCss : '') + fonts + css;
   const rehydrate = `window.${hydrationFunctionName}(${JSON.stringify(ids)});`;
   const markup = renderToStaticMarkup(
     <html lang="en">
@@ -86,9 +86,13 @@ function renderPageContents({
         <meta charSet="utf-8" />
         <meta name="author" content="Haukur Páll Hallvarðsson" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <style dangerouslySetInnerHTML={{ __html: fonts }} />
-        <style>{injectedCss}</style>
-        <link rel="preload" as="image" href={profilePictureUrl} />
+        <style dangerouslySetInnerHTML={{ __html: injectedCss }} />
+        <link
+          rel="preload"
+          as="image"
+          href={profilePictureUrl}
+          media="(min-width: 1260px)"
+        />
         {isProd && analyticsScripts}
       </head>
       <body>

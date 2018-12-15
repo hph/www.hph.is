@@ -1,4 +1,6 @@
-export const fonts = `
+import CleanCSS from 'clean-css';
+
+const rawFontsCss = `
   /* source-sans-pro-400normal - latin */
   @font-face {
     font-family: 'Source Sans Pro';
@@ -51,3 +53,5 @@ export const fonts = `
       url('/source-sans-pro-latin-600italic.woff') format('woff'); /* Modern Browsers */
   }
 `;
+
+export const fonts = new CleanCSS().minify(rawFontsCss).styles;
