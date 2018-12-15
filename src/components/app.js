@@ -26,9 +26,8 @@ const systemFonts = [
 const Main = styled('main')({
   display: 'flex',
   justifyContent: 'center',
-  padding: '2rem 0',
+  paddingTop: '2rem',
   [mobileBreakpoint]: {
-    padding: '2rem',
     flexDirection: 'column',
     alignItems: 'center',
   },
