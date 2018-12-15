@@ -3,7 +3,7 @@ import { Location, Router } from '@reach/router';
 import { injectGlobal } from 'emotion';
 import styled from 'react-emotion';
 
-import { About, DocumentTitle, Title, PostPreview } from './shared';
+import { About, DocumentTitle, Head, Title, PostPreview } from './shared';
 import NotFound from './not-found';
 import { pageViewTrackingFunctionName, mobileBreakpoint } from '../constants';
 import posts from '../../build/all-posts';
@@ -145,6 +145,7 @@ function App({ onRenderNotFound }) {
     <Main>
       <Location>{onLocationChange}</Location>
       <DocumentTitle>Hawk is Coding</DocumentTitle>
+      <Head tag="meta" name="description" content="Haukur Páll Hallvarðsson" />
       <Router>
         {posts.map(({ url, component: Component }) => (
           <Component key={url} path={`/coding/${url}`} />
