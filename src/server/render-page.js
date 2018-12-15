@@ -59,7 +59,21 @@ function getCodeSplitScripts(stats, modules) {
   return getBundles(stats, modules).map(bundle => bundle && bundle.file);
 }
 
-function renderPageContents({ html, css, ids, head, codeSplitScripts }) {
+// Fade the page in. Makes for a smoother experience for visitors that do not
+// have the font on first page load. Subsequent page views do not fade in,
+// including when refreshing the page (relies on a cookie).
+const fadeCss =
+  'body{animation:fadeIn 1s ease}@keyframes fadeIn{from{opacity:0}to{opacity:1}}';
+
+function renderPageContents({
+  html,
+  css,
+  ids,
+  head,
+  codeSplitScripts,
+  firstVisit,
+}) {
+  const injectedCss = firstVisit ? fadeCss + css : css;
   const rehydrate = `window.${hydrationFunctionName}(${JSON.stringify(ids)});`;
   const markup = renderToStaticMarkup(
     <html lang="en">
@@ -70,11 +84,7 @@ function renderPageContents({ html, css, ids, head, codeSplitScripts }) {
         <meta charSet="utf-8" />
         <meta name="author" content="Haukur Páll Hallvarðsson" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link
-          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro"
-          rel="stylesheet"
-        />
-        <style>{css}</style>
+        <style>{injectedCss}</style>
         {isProd && analyticsScripts}
       </head>
       <body>
@@ -92,11 +102,20 @@ function renderPageContents({ html, css, ids, head, codeSplitScripts }) {
 }
 
 const memCache = new Map();
+const cacheKey = ({ firstVisit, path }) => `${firstVisit ? 'f' : 'nf'}${path}`;
 
 export default function renderPage(req, res) {
+  const firstVisit = !req.cookies.visited;
+  if (firstVisit) {
+    const oneYearInSeconds = 60 * 24 * 365;
+    res.cookie('visited', 't', {
+      maxAge: new Date(Date.now() + oneYearInSeconds),
+    });
+  }
+
   const path = url.parse(req.originalUrl).pathname;
   log.info({ path }, 'Rendering page');
-  const cachedPage = memCache.get(path);
+  const cachedPage = memCache.get(cacheKey({ firstVisit, path }));
   if (cachedPage) {
     log.info({ path }, 'Serving page from cache');
     return res.status(200).send(cachedPage);
@@ -130,12 +149,13 @@ export default function renderPage(req, res) {
       ids,
       head: Head.flush(),
       codeSplitScripts: getCodeSplitScripts(buildStats, modules),
+      firstVisit,
     });
 
     const statusCode = reactRouter.status || 200;
     if (statusCode === 200) {
       log.info({ path }, 'Caching page');
-      memCache.set(path, page);
+      memCache.set(cacheKey({ firstVisit, path }), page);
     }
 
     log.info({ path }, 'Serving page');

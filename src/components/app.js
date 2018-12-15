@@ -23,23 +23,6 @@ const systemFonts = [
   'Segoe UI Symbol',
 ];
 
-// eslint-disable-next-line no-unused-expressions
-injectGlobal`
-  :root {
-    font-family: Source Sans Pro, ${systemFonts.join(', ')};
-    font-size: 18px;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    box-sizing: border-box;
-  }
-
-  *, *:before, *:after {
-    box-sizing: inherit;
-    margin: 0;
-    padding: 0;
-  }
-`;
-
 const Main = styled('main')({
   display: 'flex',
   justifyContent: 'center',
@@ -64,6 +47,75 @@ const Posts = styled('section')({
     maxWidth: '44rem',
   },
 });
+
+// eslint-disable-next-line no-unused-expressions
+injectGlobal`
+  :root {
+    font-family: Source Sans Pro, ${systemFonts.join(', ')};
+    font-size: 18px;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    box-sizing: border-box;
+  }
+
+  *, *:before, *:after {
+    box-sizing: inherit;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* source-sans-pro-400normal - latin */
+  @font-face {
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-display: swap;
+    font-weight: 400;
+    src:
+      local('Source Sans Pro Regular '),
+      local('Source Sans Pro-Regular'),
+      url('/source-sans-pro-latin-400.woff2') format('woff2'), /* Super Modern Browsers */
+      url('/source-sans-pro-latin-400.woff') format('woff'); /* Modern Browsers */
+  }
+
+  /* source-sans-pro-400italic - latin */
+  @font-face {
+    font-family: 'Source Sans Pro';
+    font-style: italic;
+    font-display: swap;
+    font-weight: 400;
+    src:
+      local('Source Sans Pro Regular italic'),
+      local('Source Sans Pro-Regularitalic'),
+      url('/source-sans-pro-latin-400italic.woff2') format('woff2'), /* Super Modern Browsers */
+      url('/source-sans-pro-latin-400italic.woff') format('woff'); /* Modern Browsers */
+  }
+
+  /* source-sans-pro-600normal - latin */
+  @font-face {
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-display: swap;
+    font-weight: 600;
+    src:
+      local('Source Sans Pro SemiBold '),
+      local('Source Sans Pro-SemiBold'),
+      url('/source-sans-pro-latin-600.woff2') format('woff2'), /* Super Modern Browsers */
+      url('/source-sans-pro-latin-600.woff') format('woff'); /* Modern Browsers */
+  }
+
+  /* source-sans-pro-600italic - latin */
+  @font-face {
+    font-family: 'Source Sans Pro';
+    font-style: italic;
+    font-display: swap;
+    font-weight: 600;
+    src:
+      local('Source Sans Pro SemiBold italic'),
+      local('Source Sans Pro-SemiBolditalic'),
+      url('/source-sans-pro-latin-600italic.woff2') format('woff2'), /* Super Modern Browsers */
+      url('/source-sans-pro-latin-600italic.woff') format('woff'); /* Modern Browsers */
+  }
+`;
 
 function App() {
   return (

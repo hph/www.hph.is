@@ -1,6 +1,7 @@
 import Express from 'express';
 import helmet from 'helmet';
 import compression from 'compression';
+import cookieParser from 'cookie-parser';
 
 import renderPage from './render-page';
 import forceTls from './force-tls';
@@ -13,6 +14,7 @@ export default function createServer() {
   if (isProd) {
     server.use(forceTls);
   }
+  server.use(cookieParser());
   server.use(helmet());
   server.use(compression());
   server.use(Express.static('build', isProd ? { maxAge: '1 year' } : {}));

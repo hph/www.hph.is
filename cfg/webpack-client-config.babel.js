@@ -49,7 +49,18 @@ export default {
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development',
     }),
-    new CopyPlugin(['../static/favicon.ico', '../static/robots.txt']),
+    new CopyPlugin([
+      '../static/favicon.ico',
+      '../static/robots.txt',
+      '../node_modules/typeface-source-sans-pro/files/source-sans-pro-latin-400.woff',
+      '../node_modules/typeface-source-sans-pro/files/source-sans-pro-latin-400.woff2',
+      '../node_modules/typeface-source-sans-pro/files/source-sans-pro-latin-400italic.woff',
+      '../node_modules/typeface-source-sans-pro/files/source-sans-pro-latin-400italic.woff2',
+      '../node_modules/typeface-source-sans-pro/files/source-sans-pro-latin-600.woff',
+      '../node_modules/typeface-source-sans-pro/files/source-sans-pro-latin-600.woff2',
+      '../node_modules/typeface-source-sans-pro/files/source-sans-pro-latin-600italic.woff',
+      '../node_modules/typeface-source-sans-pro/files/source-sans-pro-latin-600italic.woff2',
+    ]),
     ...(isProd
       ? [
           new webpack.optimize.ModuleConcatenationPlugin(),
