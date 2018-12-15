@@ -8,6 +8,7 @@ import url from 'url';
 import fs from 'fs';
 
 import log from './logger';
+import { fonts } from './fonts';
 import buildStats from '../../build/react-loadable.json';
 import App from '../components/app';
 import Head from '../components/head';
@@ -85,6 +86,7 @@ function renderPageContents({
         <meta charSet="utf-8" />
         <meta name="author" content="Haukur Páll Hallvarðsson" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <style dangerouslySetInnerHTML={{ __html: fonts }} />
         <style>{injectedCss}</style>
         <link rel="preload" as="image" href={profilePictureUrl} />
         {isProd && analyticsScripts}
