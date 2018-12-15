@@ -129,14 +129,19 @@ const Home = () => (
 
 let firstRender = true;
 function onLocationChange(props) {
-  if (process.env.NODE_ENV === 'production' && typeof window !== 'undefined') {
-    if (firstRender) {
-      firstRender = false;
-      return;
-    }
+  if (typeof window !== 'undefined') {
+    // Scroll to the top of the page; the router doesn't do it.
+    requestAnimationFrame(() => window.scrollTo(0, 0));
 
-    // Notify Google Analytics that we've changed routes.
-    window[pageViewTrackingFunctionName](props.location.pathname);
+    if (process.env.NODE_ENV === 'production') {
+      if (firstRender) {
+        firstRender = false;
+        return;
+      }
+
+      // Notify Google Analytics that we've changed routes.
+      window[pageViewTrackingFunctionName](props.location.pathname);
+    }
   }
 }
 
