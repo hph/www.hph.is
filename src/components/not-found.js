@@ -11,7 +11,14 @@ function NotFound({ onRender }) {
   }
 
   return (
-    <div css={{ margin: '2rem auto', width: '40rem' }}>
+    <div
+      css={{
+        margin: '2rem auto',
+        width: '40rem',
+        '@media (max-width: 719px)': {
+          width: '100%',
+        },
+      }}>
       <Title>Page not found</Title>
       <div css={{ marginTop: '1rem' }}>
         <Link href="/coding">Go home</Link>
