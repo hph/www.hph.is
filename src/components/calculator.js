@@ -24,6 +24,9 @@ const defaults = {
   skattur: 0,
   lifeyrir: 0,
   utgreiddLaun: 0,
+  utgreittHlutfall: 0,
+  utgreittHlutfallLif: 0,
+  utgreittHlutfallKostnadur: 0,
   vidbot: 0,
   launakostnadur: 0,
   starfsendurhaefingarsjodur: 0,
@@ -61,6 +64,10 @@ function calculate(state) {
     tryggingagjald +
     starfsendurhaefingarsjodur;
   const vidbot = Math.round(eiginVidbot * 1.5);
+  const utgreittHlutfall = (utgreiddLaun / laun) * 100;
+  const utgreittHlutfallLif =
+    ((utgreiddLaun + lifeyrir + vidbot) / launakostnadur) * 100;
+  const utgreittHlutfallKostnadur = (utgreiddLaun / launakostnadur) * 100;
   return {
     launakostnadur,
     lifeyrir,
@@ -68,13 +75,16 @@ function calculate(state) {
     starfsendurhaefingarsjodur,
     tryggingagjald,
     utgreiddLaun,
+    utgreittHlutfall,
+    utgreittHlutfallLif,
+    utgreittHlutfallKostnadur,
     vidbot,
     onytturPersonuafslattur,
   };
 }
 
-const Field = ({ label, ...rest }) => (
-  <label css={{ display: 'block', fontSize: 16, color: '#383838' }}>
+const Field = ({ label, styles = {}, ...rest }) => (
+  <label css={{ display: 'block', fontSize: 16, color: '#383838', ...styles }}>
     {label}
     <input
       css={{
@@ -95,6 +105,34 @@ const Field = ({ label, ...rest }) => (
   </label>
 );
 
+// Convert a number to a string, with a comma between every three places of
+// digits. For instance:
+// In: 13700700
+// Out: 13,700,700
+// Implementation intentionally left imperformant in order to keep it simple.
+function addCommas(n) {
+  const asReversedArray = n
+    .toString()
+    .split('')
+    .reverse();
+  const withCommas = asReversedArray.reduce((acc, item, index) => {
+    acc.push(item);
+    if ((index + 1) % 3 === 0 && index !== asReversedArray.length - 1) {
+      acc.push(',');
+    }
+    return acc;
+  }, []);
+  return withCommas.reverse().join('');
+}
+
+function formatNumber(value, { type }) {
+  if (type === 'percent') {
+    const withTwoDecimalPlaces = Math.round(value * 100) / 100;
+    return `${withTwoDecimalPlaces}% `;
+  }
+  return `${addCommas(Math.round(value))} kr`;
+}
+
 const Results = ({ label, results, styles = {} }) => (
   <div css={styles}>
     <div css={{ color: '#383838', marginBottom: 6 }}>{label}</div>
@@ -106,12 +144,15 @@ const Results = ({ label, results, styles = {} }) => (
           justifyContent: 'space-between',
           fontSize: 16,
           fontWeight: result.main ? 600 : 400,
+          ':hover': {
+            backgroundColor: '#fff',
+          },
         }}>
         <span
           css={{ fontSize: 16, color: result.main ? '#383838' : '#737373' }}>
           {result.label}
         </span>
-        <span>{Math.round(result.value).toLocaleString()} kr.</span>
+        <span>{formatNumber(result.value, { type: result.type })}</span>
       </div>
     ))}
   </div>
@@ -148,72 +189,53 @@ export default class Calculator extends Component {
         <Head tag="meta" name="description" content="Íslensk launareiknivél" />
         <h1>Launareiknivél</h1>
         <div css={{ marginTop: 16, '> *': { marginBottom: 12 } }}>
-          <Field
-            label="Laun"
-            name="laun"
-            type="number"
-            placeholder="Laun (kr.)"
-            value={this.state.laun}
-            onChange={this.onChange}
-            autoFocus
-          />
-          <Field
-            label="Persónuafsláttur"
-            name="personuafslattur"
-            type="number"
-            placeholder="Persónuafsláttur (kr)"
-            value={this.state.personuafslattur}
-            onChange={this.onChange}
-          />
-          <p
+          <div css={{ display: 'flex' }}>
+            <Field
+              label="Laun"
+              name="laun"
+              type="number"
+              placeholder="Laun (kr.)"
+              value={this.state.laun}
+              onChange={this.onChange}
+              styles={{ flex: 1, marginRight: 6 }}
+              autoFocus
+            />
+            <Field
+              label="Persónuafsláttur"
+              name="personuafslattur"
+              type="number"
+              placeholder="Persónuafsláttur (kr)"
+              value={this.state.personuafslattur}
+              styles={{ flex: 1 }}
+              onChange={this.onChange}
+            />
+          </div>
+          <div
             css={{
-              fontSize: 14,
-              fontStyle: 'italic',
-              color: '#737373',
-              marginTop: -6,
+              display: 'flex',
+              marginTop: 16,
+              '> *': { marginBottom: 12 },
             }}>
-            Einnig má nota ónýttan persónuafslátt maka sem og uppsafnaðan
-            persónuafslátt.
-          </p>
-          <Field
-            label="Iðgjald launagreiðanda"
-            name="idgjald"
-            type="number"
-            step=".01"
-            placeholder="Iðgjald launagreiðanda (%)"
-            value={this.state.idgjald}
-            onChange={this.onChange}
-          />
-          <p
-            css={{
-              fontSize: 14,
-              fontStyle: 'italic',
-              color: '#737373',
-              marginTop: -6,
-            }}>
-            Iðgjald launagreiðanda er minnst 8% og leggst ofan á grunnlaun, en
-            iðgjald launamanns er ávallt 4%.
-          </p>
-          <Field
-            label="Viðbótalífeyrissparnaður"
-            name="sereign"
-            type="number"
-            placeholder="Viðbótalífeyrissparnaður (%)"
-            value={this.state.sereign}
-            onChange={this.onChange}
-          />
-          <p
-            css={{
-              fontSize: 14,
-              fontStyle: 'italic',
-              color: '#737373',
-              marginTop: -6,
-            }}>
-            Greiði launamaður viðbótalífeyri þá dregst sú upphæð af skattstofni.
-            Launagreiðandi skal enn fremur greiða helming upphæðar sem
-            launamaður greiðir, eða allt að 2% í viðbótalífeyri, og sú upphæð
-            leggst ofan á grunnlaun til útreikningar tryggingagjalds.
-          </p>
+            <Field
+              label="Iðgjald launagreiðanda"
+              name="idgjald"
+              type="number"
+              step=".01"
+              placeholder="Iðgjald launagreiðanda (%)"
+              value={this.state.idgjald}
+              onChange={this.onChange}
+              styles={{ flex: 1, marginRight: 6 }}
+            />
+            <Field
+              label="Viðbótalífeyrissparnaður"
+              name="sereign"
+              type="number"
+              placeholder="Viðbótalífeyrissparnaður (%)"
+              value={this.state.sereign}
+              onChange={this.onChange}
+              styles={{ flex: 1 }}
+            />
+          </div>
         </div>
         <div>
           <Results
@@ -248,6 +270,29 @@ export default class Calculator extends Component {
                 label: 'Launakostnaður',
                 value: this.state.launakostnadur,
                 main: true,
+              },
+            ]}
+            styles={{
+              marginBottom: 12,
+            }}
+          />
+          <Results
+            label="Ýmis hlutföll"
+            results={[
+              {
+                label: 'Útgreidd laun af launum',
+                value: this.state.utgreittHlutfall,
+                type: 'percent',
+              },
+              {
+                label: 'Útgreidd laun og heildarlífeyrir af launakostnaði',
+                value: this.state.utgreittHlutfallLif,
+                type: 'percent',
+              },
+              {
+                label: 'Útgreidd laun af launakostnaði',
+                value: this.state.utgreittHlutfallKostnadur,
+                type: 'percent',
               },
             ]}
           />
