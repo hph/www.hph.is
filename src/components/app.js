@@ -4,6 +4,7 @@ import { injectGlobal } from 'emotion';
 import styled from 'react-emotion';
 
 import { About, DocumentTitle, Head, Title, PostPreview } from './shared';
+import { Calculator } from './calculator';
 import NotFound from './not-found';
 import { pageViewTrackingFunctionName, mobileBreakpoint } from '../constants';
 import posts from '../../build/all-posts';
@@ -106,6 +107,7 @@ function App({ onRenderNotFound }) {
           <Component key={url} path={`/coding/${url}`} />
         ))}
         <Home path="/coding" />
+        <Calculator path="/calculator" />
         <NotFound path="*" onRender={onRenderNotFound} />
       </Router>
     </Main>
