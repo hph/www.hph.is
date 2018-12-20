@@ -1,13 +1,18 @@
 import React, { Fragment } from 'react';
-import { Location, Router } from '@reach/router';
+import { Location, Redirect, Router } from '@reach/router';
 import { injectGlobal } from 'emotion';
 import styled from 'react-emotion';
+import Loadable from 'react-loadable';
 
 import { About, DocumentTitle, Head, Title, PostPreview } from './shared';
-import { Calculator } from './calculator';
 import NotFound from './not-found';
 import { pageViewTrackingFunctionName, mobileBreakpoint } from '../constants';
 import posts from '../../build/all-posts';
+
+const Calculator = Loadable({
+  loader: () => import(/* webpackChunkName: "calculator" */ './calculator'),
+  loading: () => null,
+});
 
 // System fonts based on the ones GitHub uses.
 const systemFonts = [
@@ -107,7 +112,9 @@ function App({ onRenderNotFound }) {
           <Component key={url} path={`/coding/${url}`} />
         ))}
         <Home path="/coding" />
-        <Calculator path="/calculator" />
+        <Redirect from="/laun" to="/launareiknivel" noThrow />
+        <Redirect from="/calculator" to="/launareiknivel" noThrow />
+        <Calculator path="/launareiknivel" />
         <NotFound path="*" onRender={onRenderNotFound} />
       </Router>
     </Main>

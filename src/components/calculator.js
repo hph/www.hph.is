@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import { Head } from './shared';
 
 /**
@@ -26,7 +27,7 @@ const defaults = {
 };
 
 function calculate(state) {
-  const laun = parseInt(state.laun || defaults.laun) || 0;
+  const laun = parseInt(state.laun || defaults.laun, 0) || 0;
   const idgjald = parseFloat(state.idgjald || defaults.idgjald);
   const sereign = parseFloat(state.sereign || defaults.sereign);
 
@@ -103,7 +104,7 @@ const Results = ({ label, results, styles = {} }) => (
   </div>
 );
 
-export class Calculator extends Component {
+export default class Calculator extends Component {
   state = defaults;
 
   onChange = ({ target }) => {
