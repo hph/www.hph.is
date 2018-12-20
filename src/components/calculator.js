@@ -181,7 +181,7 @@ export default class Calculator extends Component {
       <div
         css={{
           width: 480,
-          padding: '0 20px',
+          padding: '0 20px 30px',
           '@media (max-width: 479px)': {
             width: '100%',
           },
