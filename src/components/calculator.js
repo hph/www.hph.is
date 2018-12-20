@@ -15,6 +15,8 @@ const efraSkattthrep = 46.24;
 const threpamork = 893713;
 
 const defaults = {
+  personuafslattur,
+  onytturPersonuafslattur: 0,
   laun: '',
   tryggingagjald: 0,
   sereign: 0,
@@ -24,12 +26,15 @@ const defaults = {
   utgreiddLaun: 0,
   vidbot: 0,
   launakostnadur: 0,
+  starfsendurhaefingarsjodur: 0,
 };
 
 function calculate(state) {
   const laun = parseInt(state.laun || defaults.laun, 0) || 0;
   const idgjald = parseFloat(state.idgjald || defaults.idgjald);
   const sereign = parseFloat(state.sereign || defaults.sereign);
+  const afslattur =
+    parseInt(state.personuafslattur || defaults.personuafslattur, 0) || 0;
 
   const eiginVidbot = (laun * sereign) / 100;
   const gjaldstofn = laun + (laun * idgjald) / 100 + (laun * sereign) / 2 / 100;
@@ -40,23 +45,31 @@ function calculate(state) {
   if (tekjustofn > threpamork) {
     skattur += ((tekjustofn - threpamork) / 100) * efraSkattthrep;
   }
-  skattur = Math.max(0, skattur - personuafslattur);
+  skattur -= afslattur;
+  let onytturPersonuafslattur = 0;
+  if (skattur < 0) {
+    onytturPersonuafslattur = -skattur;
+    skattur = 0;
+  }
   const utgreiddLaun = tekjustofn - skattur;
   const tryggingagjald = (gjaldstofn * tryggingagjaldHlutfall) / 100;
+  const starfsendurhaefingarsjodur = 0.001 * laun;
   const launakostnadur =
     laun +
     (laun * idgjald) / 100 +
     (laun * sereign) / 2 / 100 +
     tryggingagjald +
-    0.001 * laun;
+    starfsendurhaefingarsjodur;
   const vidbot = Math.round(eiginVidbot * 1.5);
   return {
-    tryggingagjald,
-    skattur,
-    utgreiddLaun,
     launakostnadur,
     lifeyrir,
+    skattur,
+    starfsendurhaefingarsjodur,
+    tryggingagjald,
+    utgreiddLaun,
     vidbot,
+    onytturPersonuafslattur,
   };
 }
 
@@ -145,6 +158,24 @@ export default class Calculator extends Component {
             autoFocus
           />
           <Field
+            label="Persónuafsláttur"
+            name="personuafslattur"
+            type="number"
+            placeholder="Persónuafsláttur (kr)"
+            value={this.state.personuafslattur}
+            onChange={this.onChange}
+          />
+          <p
+            css={{
+              fontSize: 14,
+              fontStyle: 'italic',
+              color: '#737373',
+              marginTop: -6,
+            }}>
+            Einnig má nota ónýttan persónuafslátt maka sem og uppsafnaðan
+            persónuafslátt.
+          </p>
+          <Field
             label="Iðgjald launagreiðanda"
             name="idgjald"
             type="number"
@@ -192,6 +223,10 @@ export default class Calculator extends Component {
               { label: 'Viðbótalífeyrir', value: this.state.vidbot },
               { label: 'Skattur', value: this.state.skattur },
               {
+                label: 'Ónýttur persónuafsláttur',
+                value: this.state.onytturPersonuafslattur,
+              },
+              {
                 label: 'Útgreidd laun',
                 value: this.state.utgreiddLaun,
                 main: true,
@@ -206,6 +241,10 @@ export default class Calculator extends Component {
             results={[
               { label: 'Tryggingagjald', value: this.state.tryggingagjald },
               {
+                label: 'Starfsendurhæfingarsjóður',
+                value: this.state.starfsendurhaefingarsjodur,
+              },
+              {
                 label: 'Launakostnaður',
                 value: this.state.launakostnadur,
                 main: true,
@@ -213,6 +252,15 @@ export default class Calculator extends Component {
             ]}
           />
         </div>
+        <p
+          css={{
+            fontSize: 14,
+            fontStyle: 'italic',
+            color: '#737373',
+            marginTop: 24,
+          }}>
+          Birt með fyrirvara um mögulegar villur.
+        </p>
       </div>
     );
   }
