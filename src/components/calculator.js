@@ -323,7 +323,11 @@ export default class Calculator extends Component {
             width: '100%',
           },
         }}>
-        <Head tag="meta" name="description" content="Íslensk launareiknivél" />
+        <Head
+          tag="meta"
+          name="description"
+          content="Íslensk launareiknivél árið 2019. Reiknaðu laun eftir skatt, iðgjald, viðbótasparnað, og ýmis hlutföll."
+        />
         <div
           css={{
             display: 'flex',
