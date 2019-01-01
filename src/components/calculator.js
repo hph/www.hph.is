@@ -170,7 +170,11 @@ const Results = ({ label, results, styles = {} }) => (
           css={{ fontSize: 16, color: result.main ? '#383838' : '#737373' }}>
           {result.label}
         </span>
-        <span>{formatNumber(result.value, { type: result.type })}</span>
+        <span>
+          {formatNumber(Number.isNaN(result.value) ? 0 : result.value, {
+            type: result.type,
+          })}
+        </span>
       </div>
     ))}
   </div>
