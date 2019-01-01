@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { navigate } from '@reach/router';
 
 import { Head } from './shared';
 
@@ -51,11 +52,12 @@ const defaults = {
 function calculate(state) {
   const {
     tryggingagjaldHlutfall,
-    personuafslattur,
     nedraSkattthrep,
     efraSkattthrep,
     threpamork,
   } = state.byYear[state.year];
+  const personuafslattur =
+    state.personuafslattur || state.byYear[state.year].personuafslattur;
 
   const laun = parseInt(state.laun || defaults.laun, 0) || 0;
   const idgjald = parseFloat(state.idgjald || defaults.idgjald);
@@ -77,8 +79,7 @@ function calculate(state) {
   const launagreidandiVidbot = (laun * launagreidandiSereign) / 100;
   const vidbot = eiginVidbot + launagreidandiVidbot;
 
-  const afslattur =
-    parseInt(personuafslattur || defaults.personuafslattur, 0) || 0;
+  const afslattur = parseInt(personuafslattur, 0) || 0;
 
   const eiginLifeyrir = (laun * 4) / 100;
   const launagreidandiLifeyrir = (laun * idgjald) / 100;
@@ -207,11 +208,72 @@ const Results = ({ label, results, styles = {} }) => (
   </div>
 );
 
+let parseUrl;
+let parseQuery;
+
 export default class Calculator extends Component {
-  state = {
-    ...defaults,
-    ...defaults.byYear[defaults.year],
-  };
+  constructor(props) {
+    super(props);
+    let fromSearch = {};
+    if (typeof window === 'undefined') {
+      parseUrl = parseUrl || require('url').parse; // eslint-disable-line global-require
+      parseQuery = parseQuery || require('querystring').parse; // eslint-disable-line global-require
+      const params = parseQuery(parseUrl(props.location.pathname).query);
+      const year = params.ar || defaults.year;
+      fromSearch = {
+        year,
+        laun: params.laun || '',
+        personuafslattur:
+          params.pafsl || defaults.byYear[year].personuafslattur,
+        idgjald: params.idgjald || defaults.idgjald,
+        sereign: params.sereign || defaults.sereign,
+      };
+    } else {
+      const params = new URLSearchParams(window.location.search);
+      const year = params.get('ar') || defaults.year;
+      fromSearch = {
+        year,
+        laun: params.get('laun') || '',
+        personuafslattur:
+          params.get('pafsl') || defaults.byYear[year].personuafslattur,
+        idgjald: params.get('idgjald') || defaults.idgjald,
+        sereign: params.get('sereign') || defaults.sereign,
+      };
+    }
+    const initialState = {
+      ...defaults,
+      ...defaults.byYear[defaults.year],
+      ...fromSearch,
+    };
+    this.state = {
+      ...initialState,
+      ...calculate(initialState),
+    };
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.location.href !== this.props.location.href) {
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState(state => {
+        const params = new URLSearchParams(window.location.search);
+        const year = params.get('ar') || defaults.year;
+        const fromSearch = {
+          year,
+          laun: params.get('laun') || '',
+          personuafslattur:
+            params.get('pafsl') || defaults.byYear[year].personuafslattur,
+          idgjald: params.get('idgjald') || defaults.idgjald,
+          sereign: params.get('sereign') || defaults.sereign,
+        };
+        const nextState = { ...state, ...fromSearch };
+        return { ...nextState, ...calculate(nextState) };
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.blurTimeout);
+  }
 
   onChange = ({ target }) => {
     this.setState(state => {
@@ -226,6 +288,18 @@ export default class Calculator extends Component {
         ...calculate(nextState),
       };
     });
+
+    clearTimeout(this.blurTimeout);
+    this.blurTimeout = setTimeout(this.onBlur.bind(this), 1000);
+  };
+
+  onBlur = () => {
+    clearTimeout(this.blurTimeout);
+    const { year, laun, idgjald, personuafslattur, sereign } = this.state;
+    const nextPage = `/launareiknivel?ar=${year}&laun=${laun}&pafsl=${personuafslattur}&idgjald=${idgjald}&sereign=${sereign}`;
+    if (nextPage !== window.location.pathname + window.location.search) {
+      navigate(nextPage);
+    }
   };
 
   onSelect = ({ target }) => {
@@ -257,7 +331,10 @@ export default class Calculator extends Component {
             alignItems: 'center',
           }}>
           <h1>Launareiknivél</h1>
-          <select onChange={this.onSelect}>
+          <select
+            defaultValue={this.state.year}
+            onChange={this.onSelect}
+            onBlur={this.onBlur}>
             <option value="2019">2019</option>
             <option value="2018">2018</option>
           </select>
@@ -271,6 +348,7 @@ export default class Calculator extends Component {
               placeholder="Laun (kr.)"
               value={this.state.laun}
               onChange={this.onChange}
+              onBlur={this.onBlur}
               styles={{ flex: 1, marginRight: 6 }}
               autoFocus
             />
@@ -282,6 +360,7 @@ export default class Calculator extends Component {
               value={this.state.personuafslattur}
               styles={{ flex: 1 }}
               onChange={this.onChange}
+              onBlur={this.onBlur}
             />
           </div>
           <div
@@ -298,6 +377,7 @@ export default class Calculator extends Component {
               placeholder="Iðgjald launagreiðanda (%)"
               value={this.state.idgjald}
               onChange={this.onChange}
+              onBlur={this.onBlur}
               styles={{ flex: 1, marginRight: 6 }}
             />
             <Field
@@ -307,6 +387,7 @@ export default class Calculator extends Component {
               placeholder="Viðbótalífeyrissparnaður (%)"
               value={this.state.sereign}
               onChange={this.onChange}
+              onBlur={this.onBlur}
               styles={{ flex: 1 }}
             />
           </div>

@@ -149,7 +149,8 @@ export default function renderPage(req, res) {
     firstVisit,
   });
 
-  if (statusCode === 200) {
+  // Ignore the calculator page, as it makes use of query params.
+  if (statusCode === 200 && !path.startsWith('/launareiknivel')) {
     log.info({ path }, 'Caching page');
     memCache.set(cacheKey({ firstVisit, path }), page);
   }
