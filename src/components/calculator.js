@@ -293,15 +293,6 @@ export default class Calculator extends Component {
     this.blurTimeout = setTimeout(this.onBlur.bind(this), 1000);
   };
 
-  onBlur = () => {
-    clearTimeout(this.blurTimeout);
-    const { year, laun, idgjald, personuafslattur, sereign } = this.state;
-    const nextPage = `/launareiknivel?ar=${year}&laun=${laun}&pafsl=${personuafslattur}&idgjald=${idgjald}&sereign=${sereign}`;
-    if (nextPage !== window.location.pathname + window.location.search) {
-      navigate(nextPage);
-    }
-  };
-
   onSelect = ({ target }) => {
     this.setState(state => {
       const nextState = {
@@ -311,6 +302,18 @@ export default class Calculator extends Component {
       };
       return { ...nextState, ...calculate(nextState) };
     });
+
+    clearTimeout(this.blurTimeout);
+    this.blurTimeout = setTimeout(this.onBlur.bind(this), 1000);
+  };
+
+  onBlur = () => {
+    clearTimeout(this.blurTimeout);
+    const { year, laun, idgjald, personuafslattur, sereign } = this.state;
+    const nextPage = `/launareiknivel?ar=${year}&laun=${laun}&pafsl=${personuafslattur}&idgjald=${idgjald}&sereign=${sereign}`;
+    if (nextPage !== window.location.pathname + window.location.search) {
+      navigate(nextPage);
+    }
   };
 
   render() {
