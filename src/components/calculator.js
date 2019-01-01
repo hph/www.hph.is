@@ -30,14 +30,20 @@ const defaults = {
   laun: '',
   tryggingagjald: 0,
   sereign: 0,
+  eiginSereign: 0,
+  launagreidandiSereign: 0,
   idgjald: 8,
   skattur: 0,
   lifeyrir: 0,
+  eiginLifeyrir: 0,
+  launagreidandiLifeyrir: 0,
   utgreiddLaun: 0,
   utgreittHlutfall: 0,
   utgreittHlutfallLif: 0,
   utgreittHlutfallKostnadur: 0,
   vidbot: 0,
+  eiginVidbot: 0,
+  launagreidandiVidbot: 0,
   launakostnadur: 0,
   starfsendurhaefingarsjodur: 0,
 };
@@ -54,13 +60,32 @@ function calculate(state) {
   const laun = parseInt(state.laun || defaults.laun, 0) || 0;
   const idgjald = parseFloat(state.idgjald || defaults.idgjald);
   const sereign = parseFloat(state.sereign || defaults.sereign);
+
+  let launagreidandiSereign = 0;
+  let eiginSereign = 0;
+  if (sereign <= 4) {
+    eiginSereign = sereign;
+    launagreidandiSereign = eiginSereign / 2;
+  } else if (sereign <= 6) {
+    launagreidandiSereign = 2;
+    eiginSereign = sereign - launagreidandiSereign;
+  } else {
+    eiginSereign = 4;
+    launagreidandiSereign = sereign - eiginSereign;
+  }
+  const eiginVidbot = (laun * eiginSereign) / 100;
+  const launagreidandiVidbot = (laun * launagreidandiSereign) / 100;
+  const vidbot = eiginVidbot + launagreidandiVidbot;
+
   const afslattur =
     parseInt(personuafslattur || defaults.personuafslattur, 0) || 0;
 
-  const eiginVidbot = (laun * sereign) / 100;
-  const gjaldstofn = laun + (laun * idgjald) / 100 + (laun * sereign) / 2 / 100;
   const eiginLifeyrir = (laun * 4) / 100;
-  const lifeyrir = (laun * idgjald) / 100 + (laun * 4) / 100;
+  const launagreidandiLifeyrir = (laun * idgjald) / 100;
+  const lifeyrir = launagreidandiLifeyrir + eiginLifeyrir;
+
+  const gjaldstofn = laun + launagreidandiLifeyrir + launagreidandiVidbot;
+
   const tekjustofn = laun - eiginLifeyrir - eiginVidbot;
   let skattur = (Math.min(tekjustofn, threpamork) / 100) * nedraSkattthrep;
   if (tekjustofn > threpamork) {
@@ -76,18 +101,15 @@ function calculate(state) {
   const tryggingagjald = (gjaldstofn * tryggingagjaldHlutfall) / 100;
   const starfsendurhaefingarsjodur = 0.001 * laun;
   const launakostnadur =
-    laun +
-    (laun * idgjald) / 100 +
-    (laun * sereign) / 2 / 100 +
-    tryggingagjald +
-    starfsendurhaefingarsjodur;
-  const vidbot = Math.round(eiginVidbot * 1.5);
+    gjaldstofn + tryggingagjald + starfsendurhaefingarsjodur;
   const utgreittHlutfall = (utgreiddLaun / laun) * 100;
   const utgreittHlutfallLif =
     ((utgreiddLaun + lifeyrir + vidbot) / launakostnadur) * 100;
   const utgreittHlutfallKostnadur = (utgreiddLaun / launakostnadur) * 100;
   return {
     launakostnadur,
+    eiginLifeyrir,
+    launagreidandiLifeyrir,
     lifeyrir,
     skattur,
     starfsendurhaefingarsjodur,
@@ -96,8 +118,12 @@ function calculate(state) {
     utgreittHlutfall,
     utgreittHlutfallLif,
     utgreittHlutfallKostnadur,
-    vidbot,
     onytturPersonuafslattur,
+    eiginSereign,
+    launagreidandiSereign,
+    vidbot,
+    eiginVidbot,
+    launagreidandiVidbot,
   };
 }
 
@@ -161,6 +187,7 @@ const Results = ({ label, results, styles = {} }) => (
           display: 'flex',
           justifyContent: 'space-between',
           fontSize: 16,
+          color: result.type === 'secondary' ? '#737373' : '#383838',
           fontWeight: result.main ? 600 : 400,
           ':hover': {
             backgroundColor: '#fff',
@@ -288,8 +315,39 @@ export default class Calculator extends Component {
           <Results
             label="Launamaður"
             results={[
-              { label: 'Lífeyrir', value: this.state.lifeyrir },
-              { label: 'Viðbótalífeyrir', value: this.state.vidbot },
+              {
+                label: 'Lífeyrir (launþegi) – 4%',
+                type: 'secondary',
+                value: this.state.eiginLifeyrir,
+              },
+              {
+                label: `Lífeyrir (launagreiðandi) – ${this.state.idgjald}%`,
+                type: 'secondary',
+                value: this.state.launagreidandiLifeyrir,
+              },
+              {
+                label: `Lífeyrir (samtals) – ${4 + this.state.idgjald}%`,
+                value: this.state.lifeyrir,
+              },
+              {
+                label: `Viðbótalífeyrir (launþegi) – ${
+                  this.state.eiginSereign
+                }%`,
+                type: 'secondary',
+                value: this.state.eiginVidbot,
+              },
+              {
+                label: `Viðbótalífeyrir (launagreiðandi) – ${
+                  this.state.launagreidandiSereign
+                }%`,
+                type: 'secondary',
+                value: this.state.launagreidandiVidbot,
+              },
+              {
+                label: `Viðbótalífeyrir (samtals) – ${this.state
+                  .launagreidandiSereign + this.state.eiginSereign}%`,
+                value: this.state.vidbot,
+              },
               { label: 'Skattur', value: this.state.skattur },
               {
                 label: 'Ónýttur persónuafsláttur',
