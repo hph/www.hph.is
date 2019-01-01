@@ -8,14 +8,24 @@ import { Head } from './shared';
  * Variables reference Icelandic salary concepts. Read at your own peril.
  */
 
-const tryggingagjaldHlutfall = 6.85;
-const personuafslattur = 53895;
-const nedraSkattthrep = 36.94;
-const efraSkattthrep = 46.24;
-const threpamork = 893713;
-
 const defaults = {
-  personuafslattur,
+  year: 2019,
+  byYear: {
+    2018: {
+      tryggingagjaldHlutfall: 6.85,
+      personuafslattur: 53895,
+      nedraSkattthrep: 36.94,
+      efraSkattthrep: 46.24,
+      threpamork: 893713,
+    },
+    2019: {
+      tryggingagjaldHlutfall: 6.6,
+      personuafslattur: 56447,
+      nedraSkattthrep: 36.94,
+      efraSkattthrep: 46.24,
+      threpamork: 927087,
+    },
+  },
   onytturPersonuafslattur: 0,
   laun: '',
   tryggingagjald: 0,
@@ -33,11 +43,19 @@ const defaults = {
 };
 
 function calculate(state) {
+  const {
+    tryggingagjaldHlutfall,
+    personuafslattur,
+    nedraSkattthrep,
+    efraSkattthrep,
+    threpamork,
+  } = state.byYear[state.year];
+
   const laun = parseInt(state.laun || defaults.laun, 0) || 0;
   const idgjald = parseFloat(state.idgjald || defaults.idgjald);
   const sereign = parseFloat(state.sereign || defaults.sereign);
   const afslattur =
-    parseInt(state.personuafslattur || defaults.personuafslattur, 0) || 0;
+    parseInt(personuafslattur || defaults.personuafslattur, 0) || 0;
 
   const eiginVidbot = (laun * sereign) / 100;
   const gjaldstofn = laun + (laun * idgjald) / 100 + (laun * sereign) / 2 / 100;
@@ -159,7 +177,10 @@ const Results = ({ label, results, styles = {} }) => (
 );
 
 export default class Calculator extends Component {
-  state = defaults;
+  state = {
+    ...defaults,
+    ...defaults.byYear[defaults.year],
+  };
 
   onChange = ({ target }) => {
     this.setState(state => {
@@ -176,6 +197,17 @@ export default class Calculator extends Component {
     });
   };
 
+  onSelect = ({ target }) => {
+    this.setState(state => {
+      const nextState = {
+        ...state,
+        ...defaults.byYear[target.value],
+        year: target.value,
+      };
+      return { ...nextState, ...calculate(nextState) };
+    });
+  };
+
   render() {
     return (
       <div
@@ -187,7 +219,18 @@ export default class Calculator extends Component {
           },
         }}>
         <Head tag="meta" name="description" content="Íslensk launareiknivél" />
-        <h1>Launareiknivél</h1>
+        <div
+          css={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}>
+          <h1>Launareiknivél</h1>
+          <select onChange={this.onSelect}>
+            <option value="2019">2019</option>
+            <option value="2018">2018</option>
+          </select>
+        </div>
         <div css={{ marginTop: 16, '> *': { marginBottom: 12 } }}>
           <div css={{ display: 'flex' }}>
             <Field
