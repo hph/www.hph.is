@@ -5,7 +5,7 @@
     "build:static-renderer": "webpack --config=cfg/webpack-static-renderer-config.babel.js",
     "build": "yarn build:client && yarn build:static-renderer",
     "build:production": "rm -rf build && mkdir -p build/coding && NODE_ENV=production bin/collect-routes && NODE_ENV=production yarn build",
-    "postinstall": "yarn build:production && cp _redirects build && node build/static-renderer.js && rm build/static-renderer.js",
+    "deploy": "yarn build:production && cp _redirects build && node build/static-renderer.js && rm build/static-renderer.js",
     "lint": "eslint --ignore-path=.gitignore .",
     "start": "clusterfork --concurrency=$WEB_CONCURRENCY bin/serve"
   },
