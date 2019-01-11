@@ -8,8 +8,13 @@ export default function startServer() {
   Loadable.preloadAll()
     .then(() => {
       const port = process.env.PORT || 4000;
-      server.listen(port);
-      log.info(`Server listening on http://localhost:${port}`);
+      server.listen(port, error => {
+        if (error) {
+          console.log(error);
+          return;
+        }
+        log.info(`Server listening on http://localhost:${port}`);
+      });
     })
     .catch(({ message, stack }) => {
       log.error(

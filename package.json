@@ -5,7 +5,7 @@
     "build:server": "webpack --config=cfg/webpack-server-config.babel.js",
     "build": "yarn build:client && yarn build:server",
     "build:production": "rm -rf build && mkdir build && NODE_ENV=production bin/collect-routes && NODE_ENV=production yarn build",
-    "postinstall": "yarn build:production",
+    "postinstall": "yarn build:production && mkdir -p build/coding && cp _redirects build && bin/prerender",
     "dev": "mkdir -p build && bin/collect-routes && bin/build",
     "lint": "eslint --ignore-path=.gitignore .",
     "start": "clusterfork --concurrency=$WEB_CONCURRENCY bin/serve"
@@ -23,6 +23,7 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
+    "bluebird": "^3.5.3",
     "clean-css": "^4.2.1",
     "compression": "^1.7.1",
     "cookie-parser": "^1.4.3",
@@ -42,6 +43,7 @@
     "react-dom": "^16.6.3",
     "react-emotion": "^9.0.2",
     "react-loadable": "^5.3.1",
+    "request": "^2.88.0",
     "typeface-source-sans-pro": "^0.0.54",
     "webpack": "^3.10.0",
     "webpack-hashed-chunkids": "^1.0.5"

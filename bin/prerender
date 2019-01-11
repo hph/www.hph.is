@@ -1,0 +1,53 @@
+#!/usr/bin/env node
+'use strict';
+
+const { fork } = require('child_process');
+const { promisifyAll } = require('bluebird');
+const _fs = require('fs');
+const _request = require('request');
+
+const request = promisifyAll(_request);
+const fs = promisifyAll(_fs);
+
+const child = fork('./bin/serve');
+
+const pages = [
+  ['/coding/', 'coding.html'],
+  ['/launareiknivel', 'launareiknivel.html'],
+  ['/launareiknivel', 'laun.html'],
+  ['/launareiknivel', 'calculator.html'],
+  ['/not-a-page', '404.html'],
+];
+
+const posts = ['bitmasks-react-context', 'server-side-rendering-react'];
+
+setTimeout(() => {
+  const promises = [];
+
+  pages.forEach(([path, filename]) => {
+    promises.push(
+      request.getAsync(`http://localhost:4000${path}`).then(({ body }) => {
+        return fs.writeFileAsync(`bingo/${filename}`, body, {
+          encoding: 'utf-8',
+        });
+      }),
+    );
+  });
+
+  posts.forEach(post => {
+    promises.push(
+      request
+        .getAsync(`http://localhost:4000/coding/${post}`)
+        .then(({ body }) => {
+          return fs.writeFileAsync(`bingo/coding/${post}.html`, body, {
+            encoding: 'utf-8',
+          });
+        }),
+    );
+  });
+
+  Promise.all(promises).then(() => {
+    console.log('Done');
+    child.kill();
+  });
+}, 2000);
