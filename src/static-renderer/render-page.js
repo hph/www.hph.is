@@ -5,6 +5,8 @@ import { extractCritical } from 'emotion-server';
 import Loadable from 'react-loadable';
 import { getBundles } from 'react-loadable/webpack';
 import fs from 'fs';
+import path from 'path';
+import CleanCSS from 'clean-css';
 
 import buildStats from '../../build/react-loadable.json';
 import App from '../components/app';
@@ -50,6 +52,14 @@ const analyticsScripts = (
   </Fragment>
 );
 
+const fontsRaw = fs.readFileSync(
+  path.resolve(process.cwd(), 'src/static-renderer/fonts.css'),
+  {
+    encoding: 'utf-8',
+  },
+);
+const fonts = new CleanCSS().minify(fontsRaw).styles;
+
 function getCodeSplitScripts(stats, modules) {
   return getBundles(stats, modules).map(bundle => bundle && bundle.file);
 }
@@ -64,11 +74,7 @@ function renderPageContents({ html, css, head, codeSplitScripts }) {
         <meta charSet="utf-8" />
         <meta name="author" content="Haukur Páll Hallvarðsson" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <style dangerouslySetInnerHTML={{ __html: css }} />
-        <link
-          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600"
-          rel="stylesheet"
-        />
+        <style dangerouslySetInnerHTML={{ __html: fonts + css }} />
         <link
           rel="preload"
           as="image"
