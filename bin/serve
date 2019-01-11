@@ -1,9 +1,0 @@
-#!/usr/bin/env node
-'use strict';
-
-try {
-  require('../build/server');
-} catch (error) {
-  console.log(error);
-  process.exit(1);
-}

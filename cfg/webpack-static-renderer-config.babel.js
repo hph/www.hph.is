@@ -13,7 +13,7 @@ export default {
     compression: 'commonjs ../node_modules/compression/',
   },
   entry: {
-    server: './server',
+    'static-renderer': './static-renderer',
   },
   output: {
     path: resolve('./build'),

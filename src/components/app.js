@@ -57,7 +57,7 @@ const Posts = styled('section')({
 injectGlobal`
   :root {
     background-color: #f6f8fa;
-    font-family: Source Sans Pro, ${systemFonts.join(', ')};
+    font-family: ${systemFonts.join(', ')};
     font-size: 18px;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -101,7 +101,7 @@ function onLocationChange(props) {
   }
 }
 
-function App({ onRenderNotFound }) {
+function App() {
   return (
     <Main>
       <Location>{onLocationChange}</Location>
@@ -115,7 +115,7 @@ function App({ onRenderNotFound }) {
         <Redirect from="/laun" to="/launareiknivel" noThrow />
         <Redirect from="/calculator" to="/launareiknivel" noThrow />
         <Calculator path="/launareiknivel" />
-        <NotFound path="*" onRender={onRenderNotFound} />
+        <NotFound path="*" />
       </Router>
     </Main>
   );
