@@ -432,8 +432,10 @@ export default class Calculator extends Component {
                 value: this.state.launagreidandiVidbot,
               },
               {
-                label: `Viðbótalífeyrir (samtals) – ${this.state
-                  .launagreidandiSereign + this.state.eiginSereign}%`,
+                label: `Viðbótalífeyrir (samtals) – ${parseInt(
+                  this.state.launagreidandiSereign,
+                  10,
+                ) + parseInt(this.state.eiginSereign, 10)}%`,
                 value: this.state.vidbot,
               },
               { label: 'Skattur', value: this.state.skattur },
