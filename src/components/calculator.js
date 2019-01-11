@@ -414,7 +414,8 @@ export default class Calculator extends Component {
                 value: this.state.launagreidandiLifeyrir,
               },
               {
-                label: `Lífeyrir (samtals) – ${4 + this.state.idgjald}%`,
+                label: `Lífeyrir (samtals) – ${4 +
+                  parseInt(this.state.idgjald, 10)}%`,
                 value: this.state.lifeyrir,
               },
               {
