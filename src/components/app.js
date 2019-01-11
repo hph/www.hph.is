@@ -57,7 +57,7 @@ const Posts = styled('section')({
 injectGlobal`
   :root {
     background-color: #f6f8fa;
-    font-family: ${systemFonts.join(', ')};
+    font-family: Source Sans Pro, ${systemFonts.join(', ')};
     font-size: 18px;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
