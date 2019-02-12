@@ -1,4 +1,7 @@
 http://www.hph.is   https://hph.is
 https://www.hph.is  https://hph.is
 http://hph.is       https://hph.is
+
+/edit               https://github.com/hph/www.hph.is/edit/master/_redirects
+
 /                   /coding
