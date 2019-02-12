@@ -4,6 +4,6 @@ http://hph.is       https://hph.is
 
 /edit               https://github.com/hph/www.hph.is/edit/master/_redirects
 
-/*                  https://hph.is
+/u/*                https://hph-shortener.netlify.com/:splat
 
 /                   /coding
