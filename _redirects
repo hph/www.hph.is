@@ -4,4 +4,4 @@ http://hph.is       https://hph.is
 /                   /coding
 
 # https://hph.is/u/:anything -> redirect rule defined in hph-shortener.
-/u/*                https://hph-shortener.netlify.com/:splat
+/x/*                https://hph-shortener.netlify.com/:splat
