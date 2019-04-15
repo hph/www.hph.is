@@ -14,7 +14,7 @@ import {
 export const title = 'Synchronizing Browser Tabs with the BroadcastChannel API';
 export const date = '2019-04-15';
 export const introduction =
-  'A bit about synchronizing browser tabs with the BroadcastChannel API. Demo inside™.';
+  'A bit on synchronizing browser tabs with the BroadcastChannel API. Demo inside™.';
 
 class Demo extends React.Component {
   state = {
