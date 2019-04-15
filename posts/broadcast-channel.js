@@ -143,7 +143,6 @@ export default () => (
         React.useEffect(() => {
       ++    channel.onmessage = message => setColor(message.data);
       ++    return channel.close;
-          };
         }, []);
 
         function onChange(event) {
