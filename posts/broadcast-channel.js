@@ -136,12 +136,14 @@ export default () => (
     <Code>
       {`
       function App() {
-        const [color, setColor] = React.useState(null);
+        const [color, setColor] = React.useState('');
 
       ++  const channel = React.useMemo(() => new BroadcastChannel('color'), []);
 
         React.useEffect(() => {
       ++    channel.onmessage = message => setColor(message.data);
+      ++    return channel.close;
+          };
         }, []);
 
         function onChange(event) {
