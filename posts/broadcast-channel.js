@@ -222,7 +222,7 @@ export default () => (
       <List.Item>
         <Text>
           <Link href="https://developers.google.com/web/updates/2016/09/broadcastchannel">
-            Google Developers article
+            BroadcastChannel API: A Message Bus for the Web
           </Link>
         </Text>
       </List.Item>
