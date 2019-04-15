@@ -69,10 +69,10 @@ export default () => (
     <Text>
       Today, quite unexpectedly, I came across an API called{' '}
       <InlineCode>BroadcastChannel</InlineCode>. It should not, perhaps, have
-      come as a surprise, as there’s an uncountable number of browser APIs and
-      one shouldn’t expect to be familiar with all of them. This one, however,
-      seems to address some problems that I’ve faced in the past quite nicely.
-      Let’s dive in, and explore this new API.
+      come as a surprise, as there are innumerable browser APIs and one
+      shouldn’t expect to be familiar with all of them. This one, however, seems
+      to address some problems that I’ve faced in the past quite nicely. Let’s
+      dive in, and explore this new API.
     </Text>
     <Heading>API overview</Heading>
     <Text>
