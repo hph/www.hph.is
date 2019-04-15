@@ -97,13 +97,13 @@ function renderPageContents({ html, css, head, codeSplitScripts }) {
   return `<!doctype html>${markup}`;
 }
 
-export function renderPage(path) {
+export function renderPage(pagePath) {
   const modules = [];
 
   const { html, css } = extractCritical(
     renderToString(
       <Loadable.Capture report={moduleName => modules.push(moduleName)}>
-        <ServerLocation url={path}>
+        <ServerLocation url={pagePath}>
           <App />
         </ServerLocation>
       </Loadable.Capture>,

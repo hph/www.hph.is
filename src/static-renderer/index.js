@@ -16,7 +16,11 @@ preloadAll()
       ['/not-a-page', '404.html'],
     ];
 
-    const posts = ['bitmasks-react-context', 'server-side-rendering-react'];
+    const posts = [
+      'bitmasks-react-context',
+      'server-side-rendering-react',
+      'broadcast-channel',
+    ];
 
     const promises = [];
 
