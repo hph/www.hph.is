@@ -12,6 +12,9 @@ const Item = styled('li')({
   '& *': {
     marginBottom: '.75rem',
   },
+  code: {
+    marginBottom: 0,
+  },
 });
 
 List.Item = Item;
