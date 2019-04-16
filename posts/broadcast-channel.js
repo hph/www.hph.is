@@ -131,7 +131,7 @@ export default () => (
     <Text>
       Now try opening{' '}
       <Link
-        href="http://localhost:8080/coding/broadcast-channel#demo"
+        href="https://hph.is/coding/broadcast-channel#demo"
         target="_blank"
         rel="noopener noreferrer">
         this page
