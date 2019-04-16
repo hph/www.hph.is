@@ -22,13 +22,23 @@ class Demo extends React.Component {
   };
 
   componentDidMount() {
-    this.channel = new BroadcastChannel('color');
-    this.channel.onmessage = message => this.setState({ color: message.data });
+    this.channel =
+      typeof BroadcastChannel !== 'undefined'
+        ? new BroadcastChannel('color')
+        : null;
+
+    if (this.channel) {
+      this.channel.onmessage = message =>
+        this.setState({ color: message.data });
+    }
   }
 
   onChange = event => {
     this.setState({ color: event.target.value });
-    this.channel.postMessage(event.target.value);
+
+    if (this.channel) {
+      this.channel.postMessage(event.target.value);
+    }
   };
 
   render() {
@@ -129,6 +139,13 @@ export default () => (
       in a new tab or browser window, and interact with the input again. Did you
       notice what happens? The color is kept in sync in both tabs!
     </Text>
+    <Note>
+      The above will only work in{' '}
+      <Link href="https://caniuse.com/#search=broadcastchannel">
+        supported browsers
+      </Link>. At the moment this does not include Safari or Edge, among other
+      smaller browsers.
+    </Note>
     <Text>
       A minimal reimplementation of the above demo in React might look like
       this, with the relevant areas highlighted in green:
