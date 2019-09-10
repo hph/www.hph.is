@@ -88,6 +88,7 @@ function renderPageContents({ html, css, head, codeSplitScripts }) {
         <div id={rootContainerId} dangerouslySetInnerHTML={{ __html: html }} />
         {isProd && runtimeVendorScripts}
         <script src={`/${client}`} />
+        <script src="https://dropp-staging.herokuapp.com/dropp-locations.min.js" async></script>
         {codeSplitScripts.map(script => (
           <script src={`/${script}`} key={script} />
         ))}
