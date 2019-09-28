@@ -48,9 +48,9 @@ const socialProfiles = [
   },
   {
     type: 'twitter',
-    href: 'https://twitter.com/notjustanyhawk',
+    href: 'https://twitter.com/haukurph',
     title: 'Twitter profile',
-    label: 'twitter.com/notjustanyhawk',
+    label: 'twitter.com/haukurph',
   },
 ];
 
@@ -103,9 +103,9 @@ const About = props => (
       Hi there! My name is Haukur, or{' '}
       <Link href="https://en.wiktionary.org/wiki/haukur">
         “Hawk” in English
-      </Link>. I’m a software developer from Iceland. Among other things, I
-      write about web technologies, JavaScript, front-end performance, and
-      design.
+      </Link>
+      . I’m a software developer from Iceland. Among other things, I write about
+      web technologies, JavaScript, front-end performance, and design.
     </SidebarText>
   </AuthorSidebar>
 );

@@ -48,9 +48,7 @@ const Post = ({ children, date, title, introduction }) => (
       <div css={{ [mobileBreakpoint]: { display: 'none' } }}>
         <Text>
           If you’ve enjoyed reading this post, you can{' '}
-          <Link href="https://twitter.com/notjustanyhawk">
-            follow me on Twitter
-          </Link>{' '}
+          <Link href="https://twitter.com/haukurph">follow me on Twitter</Link>{' '}
           for updates.
         </Text>
       </div>
