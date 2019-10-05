@@ -67,12 +67,9 @@ class Demo extends React.Component {
 export default () => (
   <Post title={title} date={date} introduction={introduction}>
     <Text>
-      Today, quite unexpectedly, I came across an API called{' '}
-      <InlineCode>BroadcastChannel</InlineCode>. It should not, perhaps, have
-      come as a surprise, as there are innumerable browser APIs and one
-      shouldn’t expect to be familiar with all of them. This one, however, seems
-      to address some problems that I’ve faced in the past quite nicely. Let’s
-      dive in, and explore this new API.
+      Today, unexpectedly, I came across a web API called{' '}
+      <InlineCode>BroadcastChannel</InlineCode>, and decided to explore it in a blog
+      post. Let’s dive in.
     </Text>
     <Heading>API overview</Heading>
     <Text>
