@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {
+  Alert,
   Code,
   Heading,
   InlineCode,
@@ -19,16 +20,25 @@ export const introduction =
 class Demo extends React.Component {
   state = {
     color: null,
+    canUseBroadcastChannel: true,
   };
 
   componentDidMount() {
+    if (typeof BroadcastChannel === 'undefined') {
+      this.setState({ canUseBroadcastChannel: false });
+      return;
+    }
+
     this.channel = new BroadcastChannel('color');
     this.channel.onmessage = message => this.setState({ color: message.data });
   }
 
   onChange = event => {
     this.setState({ color: event.target.value });
-    this.channel.postMessage(event.target.value);
+
+    if (this.channel) {
+      this.channel.postMessage(event.target.value);
+    }
   };
 
   render() {
@@ -56,6 +66,7 @@ class Demo extends React.Component {
             css={{ padding: 4, fontSize: 16 }}
             type="text"
             value={this.state.color}
+            disabled={!this.state.canUseBroadcastChannel}
             onChange={this.onChange}
           />
         </label>
@@ -64,12 +75,14 @@ class Demo extends React.Component {
   }
 }
 
+const BROADCAST_CHANNEL_SUPPORTED = typeof BroadcastChannel !== 'undefined';
+
 export default () => (
   <Post title={title} date={date} introduction={introduction}>
     <Text>
       Today, unexpectedly, I came across a web API called{' '}
-      <InlineCode>BroadcastChannel</InlineCode>, and decided to explore it in a blog
-      post. Let’s dive in.
+      <InlineCode>BroadcastChannel</InlineCode>, and decided to explore it in a
+      blog post. Let’s dive in.
     </Text>
     <Heading>API overview</Heading>
     <Text>
@@ -89,9 +102,10 @@ export default () => (
       `}
     </Code>
     <Text>
-      You can try out the above by opening two blank tabs in your browser and
-      pasting the code into the console. The first tab you pasted it into should
-      log a message once the code is pasted into the second one.
+      You can try out the above by opening two blank tabs in your browser (note:
+      it is not supported in Safari at the time of writing) and pasting the code
+      into the console. The first tab you pasted it into should log a message
+      once the code is pasted into the second one.
     </Text>
     <Text>
       As you can see the API is quite minimal, but it is also very powerful in
@@ -111,6 +125,13 @@ export default () => (
       Try entering a color name, such as ”hotpink”, or ”blue”, into the input
       element below:
     </Text>
+    {!BROADCAST_CHANNEL_SUPPORTED && (
+      <Alert title="Note">
+        The BroadcastChannel API does not work in Safari, or webkit-based
+        browser engines, such as Chrome on iOS. Please try the demo in a
+        supported browser.
+      </Alert>
+    )}
     <Demo />
     <Text>
       As you can see, the background color around the input element changes.
