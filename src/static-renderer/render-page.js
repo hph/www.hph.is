@@ -74,6 +74,7 @@ function renderPageContents({ html, css, head, codeSplitScripts }) {
         <meta charSet="utf-8" />
         <meta name="author" content="Haukur Páll Hallvarðsson" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="google-site-verification" content="r38X5-vtLU2Cns-XAB6rDZJvIQIxG3nmEeHhVkeL7-o" />
         <link rel="dns-prefetch" href="//fonts.gstatic.com" />
         <style dangerouslySetInnerHTML={{ __html: fonts + css }} />
         <link
