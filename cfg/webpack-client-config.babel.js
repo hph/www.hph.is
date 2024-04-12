@@ -48,7 +48,7 @@ export default {
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development',
     }),
-    new CopyPlugin(['../static/favicon.ico', '../static/robots.txt']),
+    new CopyPlugin(['../static/favicon.ico', '../static/robots.txt', '../static/index.html']),
     ...(isProd
       ? [
           new webpack.optimize.ModuleConcatenationPlugin(),
