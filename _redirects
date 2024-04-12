@@ -1,7 +1,6 @@
 http://www.hph.is   https://hph.is
 https://www.hph.is  https://hph.is
 http://hph.is       https://hph.is
-/                   /coding
 
 # https://hph.is/u/:anything -> redirect rule defined in hph-shortener.
 /x/*                https://hph-shortener.netlify.com/:splat
